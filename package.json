@@ -1,0 +1,31 @@
+{
+  "name": "schedule-manager-project",
+  "version": "1.0.0",
+  "description": "A tool for managing your schedule",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc", 
+    "start": "node dist/server.js",
+    "dev": "nodemon --watch src --exec \"npm run build && npm run start\"",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arvid-e/Schedule-Manager-Project.git"
+  },
+  "author": "Arvid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arvid-e/Schedule-Manager-Project/issues"
+  },
+  "homepage": "https://github.com/arvid-e/Schedule-Manager-Project#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.4",
+    "nodemon": "^3.1.10",
+    "typescript": "^5.8.3"
+  }
+}
