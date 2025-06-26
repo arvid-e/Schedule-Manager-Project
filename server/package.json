@@ -4,7 +4,7 @@
   "description": "A tool for managing your schedule",
   "main": "index.js",
   "scripts": {
-    "build": "tsc", 
+    "build": "tsc",
     "start": "node dist/server.js",
     "dev": "nodemon --watch src --exec \"npm run build && npm run start\"",
     "test": ""
@@ -20,10 +20,13 @@
   },
   "homepage": "https://github.com/arvid-e/Schedule-Manager-Project#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/mongoose": "^5.11.96",
     "@types/node": "^24.0.4",
     "nodemon": "^3.1.10",
     "typescript": "^5.8.3"
