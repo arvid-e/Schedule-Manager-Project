@@ -1,0 +1,69 @@
+# Specifies the Compose file format version. '3.8' is a good modern choice.
+version: '3.8'
+
+# Defines the services (containers) that make up your application.
+services:
+
+  # --- MongoDB Service ---
+  mongo: 
+    image: mongo:8.0 
+                    
+    container_name: schedule-manager-mongodb # A human-readable name for the container (optional, but good for 'docker ps' and 'docker logs')
+    ports:
+      # Maps host port:container port.
+      # You can connect to MongoDB from your host machine (e.g., with MongoDB Compass or mongosh) via localhost:27017
+      - "27017:27017"
+    environment:
+      # Environment variables passed to the MongoDB container.
+      # MONGO_INITDB_DATABASE sets the default database that will be created on first start.
+      - MONGO_INITDB_DATABASE=schedule_db
+      # Uncomment and set if you want authentication for MongoDB (HIGHLY RECOMMENDED FOR PRODUCTION)
+      # - MONGO_INITDB_ROOT_USERNAME=youruser
+      # - MONGO_INITDB_ROOT_PASSWORD=yourpassword
+    volumes:
+      # Persists MongoDB data to a named volume on your host.
+      # This ensures your data isn't lost when containers are removed.
+      - mongodb_data:/data/db
+
+  # --- Node.js Server Service ---
+  server: # This is the SERVICE NAME for your Node.js backend.
+    build: ./server # Tells Docker Compose to build the image for this service
+                    # using the Dockerfile located in the './server' directory.
+    container_name: schedule-manager-server # Human-readable name for the server container.
+    ports:
+      # Maps host port 3000 to container port 3000.
+      # Your browser/client will access your server via localhost:3000
+      - "3000:3000"
+    environment:
+      # Environment variables for your Node.js application running inside the container.
+      # We use variable substitution from the root .env file.
+      - MONGO_URI=mongodb://mongo:27017/schedule_db # <--- Connects to the 'mongo' service by its name on the Docker network
+      - PORT=3000
+      # Add other secrets here (e.g., - JWT_SECRET=${JWT_SECRET})
+    volumes:
+      # Mounts your local server code into the container.
+      # This is crucial for development: changes on your host are reflected in the container.
+      - ./server:/app
+      # Exclude node_modules from the mount. Docker will manage its own node_modules inside the container.
+      # This prevents issues with OS differences or host/container node_modules conflicts.
+      - /app/node_modules
+    command: npm run dev # The command to execute when the container starts.
+                         # This assumes you have a 'dev' script in server/package.json
+                         # If you just want to run 'npm start', change this.
+    depends_on:
+      - mongo # Ensures the 'mongo' service is started before the 'server' service.
+              # Note: 'depends_on' only waits for the container to start, not for MongoDB to be fully ready.
+              # Your app's Mongoose connection retry logic will handle full readiness.
+    # Optional: If you need a specific network beyond the default bridge network:
+    # networks:
+    #   - my_custom_network
+
+# Defines named volumes. Docker manages these for data persistence.
+volumes:
+  mongodb_data:
+    # driver: local # (Optional) Specifies to use a local volume. This is the default.
+
+# Optional: Define custom networks if your services need more isolation or complex routing.
+# networks:
+#   my_custom_network:
+#     driver: bridge
