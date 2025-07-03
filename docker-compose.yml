@@ -1,7 +1,4 @@
-# Specifies the Compose file format version. '3.8' is a good modern choice.
-version: '3.8'
 
-# Defines the services (containers) that make up your application.
 services:
 
   # --- MongoDB Service ---
@@ -35,10 +32,11 @@ services:
       # Your browser/client will access your server via localhost:3000
       - "3000:3000"
     environment:
-      # Environment variables for your Node.js application running inside the container.
-      # We use variable substitution from the root .env file.
-      - MONGO_URI=mongodb://mongo:27017/schedule_db # <--- Connects to the 'mongo' service by its name on the Docker network
-      - PORT=3000
+      - "PORT=${PORT}" # Explicitly quote the entire string
+      - "NODE_ENV=${NODE_ENV:-development}"
+      - "MONGO_URI=${MONGO_URI}"
+      - "JWT_SECRET=${JWT_SECRET}"
+      - "JWT_EXPIRES_IN=${JWT_EXPIRES_IN}"
       # Add other secrets here (e.g., - JWT_SECRET=${JWT_SECRET})
     volumes:
       # Mounts your local server code into the container.

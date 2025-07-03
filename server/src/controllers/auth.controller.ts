@@ -9,9 +9,10 @@ export class AuthController {
 
     /**
     * Controller function for user registration.
-    * Handles the POST /api/auth/register request.
+    * Handles the POST /auth/register request.
     */
     public register = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+ 
         const { name, password } = req.body;
         const userData = {
             name,
@@ -35,16 +36,16 @@ export class AuthController {
 
     /**
      * Method for user login.
-     * Handles the POST /api/auth/login request.
+     * Handles the POST /auth/login request.
      */
     public login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+
         const { name, password } = req.body;
 
         if (!name || !password) {
-            return next(new Error('Please provide email and password!'));
+            return next(new Error('Please provide name and password!'));
         }
 
-        // Call the service layer (assuming service also expects an object now)
         const { user, token } = await authService.loginUser({ name, password });
 
         res.status(200).json({

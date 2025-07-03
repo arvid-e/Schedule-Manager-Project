@@ -10,6 +10,7 @@ class AuthService {
 
     /**
      * Private helper method to generate a JSON Web Token (JWT).
+     * 
      * @param userId - The ID of the user for whom to generate the token.
      * @returns The generated JWT string.
      * @throws AppError if JWT configuration is missing.

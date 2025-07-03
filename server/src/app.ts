@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
+import router from './routes';
 
 export const app = express();
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello from Express with TypeScript!');
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(router);
