@@ -8,9 +8,14 @@ export class HomeController {
 
     public home = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
-            res.send('Schedule manager')
-            //res.sendFile('../../public/index.html')
-        });
+        res.send('Home')
+        //res.sendFile('../../public/index.html')
+    });
+
+    public app = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+
+        res.send('Protected app')
+    });
 }
 
 const homeController = new HomeController();
