@@ -11,13 +11,27 @@ export class EventController {
     public getAllEvents = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const events = await eventService.findAllEvents();
 
+        res.status(201).json({
+            status: 'success',
+            message: 'Fetched all events successfully!',
+            data: {
+                event: events,
+            },
+        });
         
     });
 
     public getEventById = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const { title, description } = req.body;
-        const event = await eventService.findEventById(title);
-        res.send('Got event')
+        const _id = req.params.id
+        const event = await eventService.findEventById(_id);
+
+        res.status(201).json({
+            status: 'success',
+            message: 'Event fetched successfully!',
+            data: {
+                event: event,
+            },
+        });
 
     });
 

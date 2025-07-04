@@ -8,8 +8,8 @@ class EventService {
         return await EventModel.find();
       }
 
-    public async findEventById(title: string): Promise<IEventData | null> {
-        return await EventModel.findOne({ title });
+    public async findEventById(_id: string): Promise<IEventData | null> {
+        return await EventModel.findOne({ _id });
       }
     
     public async create(eventData: IEventData): Promise<IEventData | null> {
