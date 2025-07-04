@@ -11,6 +11,21 @@ class EventService {
     public async findEventById(_id: string): Promise<IEventData | null> {
         return await EventModel.findOne({ _id });
       }
+
+    public async deleteEvent(_id: string): Promise<Boolean> {
+      try {
+        const deleted = await EventModel.deleteOne({ _id });
+        console.log(deleted);
+        return deleted.acknowledged;
+      } 
+      
+      catch (error: any) {
+        if (error.name === 'CastError') {
+          throw new AppError(`Invalid event ID format: ${_id}`, 400);
+        }
+        throw error; 
+      }
+    }
     
     public async create(eventData: IEventData): Promise<IEventData | null> {
       try {
@@ -45,6 +60,8 @@ class EventService {
       }
 
       }
+
+    
       
 }
 

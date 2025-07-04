@@ -14,7 +14,7 @@ router.get('/:id', controller.getEventById);
 
 router.put('/update/:id', controller.updateEvent);
 
-router.post('/delete/:id', controller.deleteEvent);
+router.delete('/delete/:id', controller.deleteEvent);
 
 
 export default router;

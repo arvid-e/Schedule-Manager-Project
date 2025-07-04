@@ -24,14 +24,26 @@ export class EventController {
     public getEventById = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const _id = req.params.id
         const event = await eventService.findEventById(_id);
-
-        res.status(201).json({
-            status: 'success',
-            message: 'Event fetched successfully!',
-            data: {
-                event: event,
-            },
-        });
+        
+        if (event == null) {
+            res.status(500).json({
+                status: 'fail',
+                message: 'Failed fetching event!',
+                data: {
+                    event: event,
+                },
+            });
+        } 
+        
+        else {
+            res.status(201).json({
+                status: 'success',
+                message: 'Event fetched successfully!',
+                data: {
+                    event: event,
+                },
+            });
+        }
 
     });
 
@@ -57,8 +69,30 @@ export class EventController {
     });
 
     public deleteEvent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const _id = req.params.id;
+        console.log("Controller: ID " + _id)
+        const deleted = await eventService.deleteEvent(_id);
 
+        if (deleted) {
+            res.status(201).json({
+                status: 'success',
+                message: 'Event deleted successfully!',
+                data: {
+                    id: _id,
+                },
+            });
+        } 
         
+        else {
+            res.status(500).json({
+                status: 'fail',
+                message: 'Event deletion failed!',
+                data: {
+                    id: _id,
+                },
+            });
+        }
+
     });
 }
 
