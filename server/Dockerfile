@@ -21,4 +21,4 @@ EXPOSE 3000
 
 # Define the command to run your application
 # 'npm start' usually runs 'node dist/server.js' as defined in package.json
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]

@@ -1,20 +1,23 @@
 import { Router } from 'express';
 import { EventController } from '../controllers/event.controller';
+import { EventService } from '@app/services/event.service';
+import { EventRepository } from '@app/repositories/event.repository';
 
+const router = Router();
 
-export const router = Router();
-
-const controller = new EventController();
+const eventRepository = new EventRepository();
+const eventService = new EventService(eventRepository);
+const controller = new EventController(eventService);
 
 router.get('/', controller.getAllEvents);
 
-router.post('/create', controller.createEvent);
+router.post('/', controller.createEvent);
 
 router.get('/:id', controller.getEventById);
 
-router.put('/update/:id', controller.updateEvent);
+router.patch('/:id', controller.editEvent);
 
-router.delete('/delete/:id', controller.deleteEvent);
+router.delete('/:id', controller.deleteEvent);
 
 
 export default router;

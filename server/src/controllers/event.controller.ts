@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
-import eventService from '../services/event.service';
 import { IEventData } from '../types/event.types';
-import { catchAsync } from '../utils/catchAsync'; // Utility to gracefully handle async errors
-// import { AppError } from '../utils/appError';         // Custom application error class
-
+import { catchAsync } from '../utils/catchAsync';
+import { EventService } from '../services/event.service';
 
 
 export class EventController {
 
-    public getAllEvents = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const events = await eventService.findAllEvents();
+    constructor(private eventService: EventService){}
 
-        res.status(201).json({
+    public getAllEvents = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const events = await this.eventService.getAllEvents();
+
+        res.status(200).json({
             status: 'success',
             message: 'Fetched all events successfully!',
             data: {
@@ -22,13 +22,13 @@ export class EventController {
     });
 
     public getEventById = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const _id = req.params.id
-        const event = await eventService.findEventById(_id);
+        const eventId = req.params.id
+        const event = await this.eventService.getEventById(eventId);
         
         if (event == null) {
-            res.status(500).json({
+            res.status(404).json({
                 status: 'fail',
-                message: 'Failed fetching event!',
+                message: 'Event not found!',
                 data: {
                     event: event,
                 },
@@ -48,10 +48,8 @@ export class EventController {
     });
 
     public createEvent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        
         const eventData: IEventData = req.body;
-
-        const newEvent = await eventService.create(eventData);
+        const newEvent = await this.eventService.createEvent(eventData);
         
         res.status(201).json({
             status: 'success',
@@ -63,38 +61,62 @@ export class EventController {
      
     });
 
-    public updateEvent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-
-        
-    });
-
     public deleteEvent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const _id = req.params.id;
-        console.log("Controller: ID " + _id)
-        const deleted = await eventService.deleteEvent(_id);
+        const eventId = req.params.id;
+        const deleted = await this.eventService.deleteEvent(eventId);
 
         if (deleted) {
-            res.status(201).json({
+            res.status(200).json({
                 status: 'success',
                 message: 'Event deleted successfully!',
                 data: {
-                    id: _id,
+                    id: eventId,
                 },
             });
         } 
         
         else {
-            res.status(500).json({
+            res.status(404).json({
                 status: 'fail',
                 message: 'Event deletion failed!',
                 data: {
-                    id: _id,
+                    id: eventId,
                 },
             });
         }
 
     });
-}
 
-const eventController = new EventController();
-export default eventController;
+    public editEvent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+        const eventId = req.params.id;
+        const updateFields: Partial<IEventData> = req.body;
+
+        const eventData: IEventData = {
+            _id: eventId,
+            ...updateFields
+        } as IEventData
+
+        const edited = await this.eventService.editEvent(eventData);
+
+        if (edited) {
+            res.status(200).json({
+                status: 'success',
+                message: 'Event edited successfully!',
+                data: {
+                    id: eventId,
+                },
+            });
+        } 
+        
+        else {
+            res.status(404).json({
+                status: 'fail',
+                message: 'Event edit failed!',
+                data: {
+                    id: eventId,
+                },
+            });
+        }
+         
+    });
+}

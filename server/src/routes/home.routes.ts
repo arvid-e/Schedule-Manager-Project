@@ -1,7 +1,7 @@
 
 import { Router } from 'express'; 
-import { HomeController } from '../controllers/home.controller';
-import protect from '../middleware/authMiddleware';
+import { HomeController } from '@app/controllers/home.controller';
+import protect from '@app/middleware/authMiddleware';
 
 export const router = Router();
 

@@ -1,5 +1,4 @@
-import { IUser } from '../types/user.types';
-
+import { IUser } from "./user.types";
 
 export interface IRegisterData {
     name: string;

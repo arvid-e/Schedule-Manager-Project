@@ -6,3 +6,19 @@ export interface IEventData extends Document {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface IEventRepository {
+    findAllEvents(): Promise<IEventData[]>;
+    findById(id: string): Promise<IEventData | null>;
+    createEvent(eventData: IEventData): Promise<IEventData>;
+    deleteEvent(id: string): Promise<boolean>;
+    editEvent(eventData: IEventData): Promise<boolean>;
+}
+
+export interface IEventService {
+    getAllEvents(): Promise<IEventData[] | null>;
+    getEventById(id: string): Promise<IEventData | null>;
+    createEvent(eventData: IEventData): Promise<IEventData | null>;
+    deleteEvent(id: string): Promise<boolean>;
+    editEvent(eventData: IEventData): Promise<boolean>;
+}
