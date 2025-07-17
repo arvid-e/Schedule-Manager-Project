@@ -1,18 +1,49 @@
-import { IUser } from "./user.types";
+export interface IUser extends Document {
+    _id: string,
+    username: string;
+    password: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface JwtPayload {
+    userId: string,
+    roles?: string[]
+}
+
+export interface ICreateUserData {
+    username: string,
+    password: string
+}
 
 export interface IRegisterData {
-    name: string;
+    username: string;
     password: string;
 }
 
 export interface ILoginData {
-    name: string;
+    username: string;
     password: string;
 }
 
-// Define the shape of the data returned by authentication service methods
-// Partial<IUser> ensures we don't send back sensitive fields like the hashed password
 export interface IAuthResponse {
-    user: Partial<IUser>; // User data without sensitive info
+    user: {
+        id: string
+    }
     token: string;
+}
+
+export interface IAuthRepository {
+    findUserById(username: string): Promise<IUser | null>;
+    createUser(userData: ICreateUserData): Promise<IUser>;
+}
+
+export interface IAuthService {
+    loginUser(loginData: ILoginData): Promise<IAuthResponse>;
+    registerUser(registerData: IRegisterData): Promise<IAuthResponse>;
+}
+
+export interface ITokenService {
+    generateJwtToken(payload: JwtPayload): string;
+    verifyJwtToken(token: string): any; 
 }

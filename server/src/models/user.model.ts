@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
-import { IUser } from '../types/user.types';
+import { IUser } from '@app/types/auth.types';
 
 const userSchema = new Schema<IUser>({
-    name: {
+    username: {
         type: String,
         required: [true, 'Name is required'],
         trim: true,

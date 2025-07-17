@@ -1,5 +1,5 @@
-import { IEventData, IEventRepository } from "@app/types/event.types";
 import EventModel from "@app/models/event.model";
+import { IEventData, IEventRepository } from "@app/types/event.types";
 
 export class EventRepository implements IEventRepository {
 

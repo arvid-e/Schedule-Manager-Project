@@ -1,94 +1,94 @@
+import { AuthRespository, ConflictError, DatabaseError } from "@app/repositories/auth.repository";
+import { IAuthResponse, IAuthService, ILoginData, IRegisterData, ITokenService } from "@app/types/auth.types";
 import bcrypt from 'bcryptjs';
-import jwt, { Secret, SignOptions } from 'jsonwebtoken';
-import ms, { StringValue } from 'ms';
 
-import { BCRYPT_SALT_ROUNDS, JWT_EXPIRES_IN, JWT_SECRET } from '../config/constants';
-import User from '../models/user.model';
-import { IAuthResponse, ILoginData, IRegisterData } from "../types/auth.types";
 
-class AuthService {
+export class AuthService implements IAuthService {
+    constructor(private authRepository: AuthRespository, private tokenService: ITokenService) {}
 
-    /**
-     * Private helper method to generate a JSON Web Token (JWT).
-     * 
-     * @param userId - The ID of the user for whom to generate the token.
-     * @returns The generated JWT string.
-     * @throws AppError if JWT configuration is missing.
-     */
-    private generateJwtToken(userId: string): string {
-        if (!JWT_SECRET || !JWT_EXPIRES_IN) {
-            // In a production app, you might log this error more verbosely
-            throw new Error('Server configuration error: JWT secret or expiry not set.');
-        }
+    async loginUser(loginData: ILoginData): Promise<IAuthResponse> {
 
-         const payload = { id: userId };
-         const expiresInSeconds = ms(JWT_EXPIRES_IN as StringValue) / 1000;
+        try {
+            const { username, password } = loginData;
 
-         const options: SignOptions = {
-             expiresIn: expiresInSeconds,
-         };
+            const user = await this.authRepository.findUserById(username);
+
+            if (!user) {
+                throw Error('Incorrect password or username!')
+            }
+            const userId = user._id;
+            const hashedPassword = user.password;
+            const correctPassword = await bcrypt.compare(password, hashedPassword);
+
+            if (!correctPassword) {
+                throw Error('Incorrect password or username!')
+            }
+
+            const payload = {
+                userId: userId,
+
+            }
+            const token = this.tokenService.generateJwtToken(payload);
         
-        return jwt.sign(
-            payload,
-            JWT_SECRET as Secret,
-            options
-        );
-    }
-
-
-    /**
-     * Registers a new user with a hashed password and generates an authentication token.
-     * 
-     * @param data - An object containing the user's name, email, and password.
-     * @returns A Promise that resolves to an object containing the new user's public data and their JWT.
-     * @throws AppError if a user with the given email already exists.
-     */
-    public async registerUser(data: IRegisterData): Promise<IAuthResponse> {
-        const { name, password } = data;
-
-        const existingUser = await User.findOne({ name });
-        if (existingUser) {
-            throw new Error('User with that name already exists.');
+            return {
+                user: {
+                    id: userId,
+                },
+                token: token
+            }
         }
 
-        const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+        catch (error) {
+            if (error instanceof Error && error.message === 'Invalid credentials.') {
+                throw error; // Re-throw so the controller can handle it (e.g., return 401)
+            }
 
-        const newUser = await User.create({ name, password: hashedPassword });
+            // Handle errors propagated from the repository
+            if (error instanceof ConflictError) {
+                throw new Error(`Registration conflict: ${error.message}`);
+            }
+            if (error instanceof DatabaseError) {
+                console.error('Database operation failed during login:', error.message);
+                throw new Error('An unexpected error occurred during login. Please try again later.');
+            }
+            console.error('An unexpected error occurred in AuthService.loginUser:', error);
+            throw new Error('An unknown error occurred.'); 
+        }
 
-        const token = this.generateJwtToken(newUser._id.toString());
-
-        return {
-            user: {
-                _id: newUser._id,
-                name: newUser.name,
-            },
-            token,
-        };
     }
 
-    public async loginUser (data: ILoginData): Promise<IAuthResponse> {
-        const { name, password } = data;
+    async registerUser(registerData: IRegisterData): Promise<IAuthResponse> {
 
-        const existingUser = await User.findOne({ name }).select('+password'); 
+        try {
+            const user = await this.authRepository.createUser(registerData);
+            const userId = user._id;
 
-        if (!existingUser) {
-            throw new Error('Invalid credentials');        }
+            const payload = {
+                userId: userId
+            }
+
+            const token = this.tokenService.generateJwtToken(payload);
+
+            return {
+                user: {
+                    id: userId,
+                },
+                token: token
+            }
+        } 
+        
+        catch (error) {
+            if (error instanceof ConflictError) {
+                throw new Error(`Registration failed: ${error.message}`);
+            }
+            if (error instanceof DatabaseError) {
+                console.error('Database error during registration:', error.message);
+                throw new Error('Could not register user due to a database issue.');
+            }
+            console.error('Unexpected error during registration:', error);
+            throw new Error('Failed to register user.');
+        }
+    }
     
-        const authenticated = await bcrypt.compare(password, existingUser.password);
-
-        if (!authenticated) {
-            throw new Error('Invalid credentials');        }
-
-        const token = this.generateJwtToken(existingUser._id.toString());
-
-        return {
-            user: {
-                _id: existingUser._id,
-                name: existingUser.name,
-            },
-            token,
-        };
-    } 
 }
 
-export default new AuthService();

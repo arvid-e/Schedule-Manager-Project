@@ -1,11 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
-import authService from '../services/auth.service'; // <--- Check this line!
-import { catchAsync } from '../utils/catchAsync'; // Utility to gracefully handle async errors
+import { catchAsync } from '@app/utils/catchAsync';
+import { AuthService } from '@app/services/auth.service';
 // import { AppError } from '../utils/appError';         // Custom application error class
 
 
 
 export class AuthController {
+
+    constructor(private authService: AuthService){}
 
     /**
     * Controller function for user registration.
@@ -13,21 +15,20 @@ export class AuthController {
     */
     public register = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
  
-        const { name, password } = req.body;
+        const { username, password } = req.body;
         const userData = {
-            name,
+            username,
             password,
         }
 
-        const { user, token } = await authService.registerUser(userData);
+        const { user, token } = await this.authService.registerUser(userData);
     
         res.status(201).json({
             status: 'success',
             message: 'User registered successfully!',
             data: {
                 user: {
-                    id: user._id,
-                    name: user.name,
+                    id: user.id,
                 },
                 token,
             },
@@ -40,21 +41,24 @@ export class AuthController {
      */
     public login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
-        const { name, password } = req.body;
+        const { username, password } = req.body;
+        const loginData = {
+            username: username,
+            password: password
+        }
 
-        if (!name || !password) {
+        if (!username || !password) {
             return next(new Error('Please provide name and password!'));
         }
 
-        const { user, token } = await authService.loginUser({ name, password });
+        const { user, token } = await this.authService.loginUser(loginData);
 
         res.status(200).json({
             status: 'success',
             message: 'Logged in successfully!',
             data: {
                 user: {
-                    id: user._id,
-                    name: user.name,
+                    id: user.id,
                 },
                 token,
             },
@@ -62,6 +66,3 @@ export class AuthController {
     });
 
 }
-
-const authController = new AuthController();
-export default authController;
