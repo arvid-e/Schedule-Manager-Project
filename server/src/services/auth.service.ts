@@ -1,3 +1,4 @@
+import { BCRYPT_SALT_ROUNDS } from "@app/config/constants";
 import { AuthRespository, ConflictError, DatabaseError } from "@app/repositories/auth.repository";
 import { IAuthResponse, IAuthService, ILoginData, IRegisterData, ITokenService } from "@app/types/auth.types";
 import bcrypt from 'bcryptjs';
@@ -14,14 +15,14 @@ export class AuthService implements IAuthService {
             const user = await this.authRepository.findUserById(username);
 
             if (!user) {
-                throw Error('Incorrect password or username!')
+                throw Error('Cant find user!')
             }
             const userId = user._id;
             const hashedPassword = user.password;
             const correctPassword = await bcrypt.compare(password, hashedPassword);
 
             if (!correctPassword) {
-                throw Error('Incorrect password or username!')
+                throw Error('Incorrect password!')
             }
 
             const payload = {
@@ -60,7 +61,22 @@ export class AuthService implements IAuthService {
     async registerUser(registerData: IRegisterData): Promise<IAuthResponse> {
 
         try {
-            const user = await this.authRepository.createUser(registerData);
+            const { username, password } = registerData;
+
+            const userNameTaken = await this.authRepository.findUserById(username);
+
+            if (userNameTaken) {
+                throw new Error('Username taken')
+            }
+
+            const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+
+            const newUser = {
+                username: username,
+                password: hashedPassword
+            }
+
+            const user = await this.authRepository.createUser(newUser);
             const userId = user._id;
 
             const payload = {

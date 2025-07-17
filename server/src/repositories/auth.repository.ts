@@ -9,7 +9,7 @@ export class NotFoundError extends DatabaseError {};
 export class AuthRespository implements IAuthRepository { 
 
     async findUserById(username: string): Promise<IUser | null> {
-        return await User.findOne({ username });
+        return await User.findOne({ username }).select('+password');
     }
 
     async createUser(userData: ICreateUserData): Promise<IUser> {

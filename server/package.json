@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node -r tsconfig-paths/register dist/server.js",
+    "start": "node -r ./register-paths-docker.js dist/server.js",
     "dev": "nodemon --watch src --exec \"npm run build && npm run start\"",
     "test": "vitest",
     "test:watch": "vitest --watch",

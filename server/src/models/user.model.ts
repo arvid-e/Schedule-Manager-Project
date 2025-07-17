@@ -11,7 +11,7 @@ const userSchema = new Schema<IUser>({
         type: String,
         required: [true, 'Password is required'],
         minlength: 8,
-        select: false, // Prevents password from being returned in queries by default
+        select: false,
     },
 }, {
     timestamps: true, // Adds createdAt and updatedAt fields
