@@ -1,12 +1,17 @@
 
 import { Router } from 'express'; 
 import { AuthController } from '@app/controllers/auth.controller';
+import { AuthService } from '@app/services/auth.service';
+import { AuthRespository } from '@app/repositories/auth.repository';
+import { TokenService } from '@app/services/token.service';
 
 
 export const router = Router();
 
-const controller = new AuthController();
-
+const tokenService = new TokenService();
+const authRepository = new AuthRespository();
+const authService = new AuthService(authRepository, tokenService);
+const controller = new AuthController(authService);
 
 router.post('/register', controller.register);
 
