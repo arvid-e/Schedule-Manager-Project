@@ -1,8 +1,10 @@
 import path from 'path';
 import { defineConfig } from 'vitest/config';
 import type { UserConfig } from 'vitest/config'; 
+import tsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
+  plugins: [tsConfigPaths()], 
   test: {
     // Enable global APIs like `describe`, `it`, `expect` (similar to Jest)
     // If set to false, you'd import them: `import { describe, it, expect } from 'vitest';`
