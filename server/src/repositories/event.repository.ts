@@ -1,5 +1,5 @@
 import EventModel from "@app/models/event.model";
-import { IEventData, IEventRepository } from "@app/types/event.types";
+import { ICreateEventData, IEventData, IEventRepository, IUpdateEventData } from "@app/types/event.types";
 
 export class EventRepository implements IEventRepository {
 
@@ -10,11 +10,15 @@ export class EventRepository implements IEventRepository {
     }
 
     async findById(id: string): Promise<IEventData | null> {
-        return await this.eventModel.findById(id);
+        const event = await this.eventModel.findById(id);
+        if (event) {
+            return event.toObject();
+        }
+        return event;
     }
 
-    async createEvent(eventData: IEventData): Promise<IEventData> {
-        return await this.eventModel.create(eventData);
+    async createEvent(eventData: ICreateEventData): Promise<IEventData> {
+        return (await this.eventModel.create(eventData)).toObject();
     }
 
     async deleteEvent(_id: string): Promise<boolean> {
@@ -22,7 +26,7 @@ export class EventRepository implements IEventRepository {
         return deleted.deletedCount > 0;
     }
 
-    async editEvent(eventData: IEventData): Promise<boolean> {
+    async updateEvent(eventData: IUpdateEventData): Promise<boolean> {
         const { _id, ...updateFields } = eventData;
         const updated = await this.eventModel.updateOne({ _id }, { $set: updateFields });
         return updated.modifiedCount > 0;
