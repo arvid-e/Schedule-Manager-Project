@@ -20,8 +20,8 @@ export class EventService implements IEventService {
     return this.eventRepository.deleteEvent(id);
   }
 
-  async editEvent(eventData: IEventData): Promise<boolean> {
-    return this.eventRepository.editEvent(eventData);
+  async updateEvent(eventData: IEventData): Promise<boolean> {
+    return this.eventRepository.updateEvent(eventData);
   }
     
 }
