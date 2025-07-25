@@ -12,7 +12,7 @@ export class AuthService implements IAuthService {
         try {
             const { username, password } = loginData;
 
-            const user = await this.authRepository.findUserById(username);
+            const user = await this.authRepository.findUser(username);
 
             if (!user) {
                 throw Error('Cant find user!')
@@ -63,7 +63,7 @@ export class AuthService implements IAuthService {
         try {
             const { username, password } = registerData;
 
-            const userNameTaken = await this.authRepository.findUserById(username);
+            const userNameTaken = await this.authRepository.findUser(username);
 
             if (userNameTaken) {
                 throw new Error('Username taken')

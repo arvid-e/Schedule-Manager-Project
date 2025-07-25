@@ -1,4 +1,6 @@
-export interface IUser extends Document {
+export interface IUserDocument extends IUser, Document {}
+
+export interface IUser {
     _id: string,
     username: string;
     password: string;
@@ -34,7 +36,7 @@ export interface IAuthResponse {
 }
 
 export interface IAuthRepository {
-    findUserById(username: string): Promise<IUser | null>;
+    findUser(username: string): Promise<IUser | null>;
     createUser(userData: ICreateUserData): Promise<IUser>;
 }
 

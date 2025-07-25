@@ -15,7 +15,8 @@
 
     "types": [
       "vitest/globals", // If you use `globals: true` in vitest.config.ts
-      "node" // Important for Node.js environments
+      "node", // Important for Node.js environments
+      
     ],
 
     "baseUrl": "./src", 

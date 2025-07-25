@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { IUser } from '@app/types/auth.types';
+import { IUserDocument } from '@app/types/auth.types';
 
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUserDocument>({
     username: {
         type: String,
         required: [true, 'Name is required'],
@@ -17,5 +17,5 @@ const userSchema = new Schema<IUser>({
     timestamps: true, // Adds createdAt and updatedAt fields
 });
 
-const User = model<IUser>('User', userSchema);
+const User = model<IUserDocument>('User', userSchema);
 export default User;
