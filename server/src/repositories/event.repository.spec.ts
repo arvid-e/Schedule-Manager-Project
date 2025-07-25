@@ -1,4 +1,4 @@
-import { ICreateEventData, IEventData, IUpdateEventData } from '@app/types/event.types';
+import { ICreateEventData, IEventDataDocument, IUpdateEventData } from '@app/types/event.types';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { EventRepository } from './event.repository';
 
@@ -58,7 +58,7 @@ describe('EventRepository', () => {
     })
 
     describe('createEvent', () => {
-        type MockDocumentContext = IEventData & { toObject: () => IEventData };
+        type MockDocumentContext = IEventDataDocument & { toObject: () => IEventDataDocument };
 
         const newEvent: ICreateEventData = {
             title: "New event",
@@ -74,10 +74,10 @@ describe('EventRepository', () => {
             toObject: vi.fn().mockImplementation(function(this: MockDocumentContext) {
 
             const { toObject, ...rest } = this;
-            return rest as IEventData; 
+            return rest as IEventDataDocument; 
 
         })
-        } as unknown as IEventData & { toObject: () => IEventData};
+        } as unknown as IEventDataDocument & { toObject: () => IEventDataDocument};
 
       it('should return event data ', async () => {
         mockEventModel.create.mockResolvedValue(mockCreatedEventData);

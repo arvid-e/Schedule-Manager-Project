@@ -1,18 +1,18 @@
-import { IEventData, IEventRepository, IEventService } from "../types/event.types";
+import { ICreateEventData, IEventDataDocument, IEventRepository, IEventService, IUpdateEventData } from "../types/event.types";
 
 export class EventService implements IEventService {
 
   constructor(private eventRepository: IEventRepository) {}
 
-  async getAllEvents(): Promise<IEventData[]> {
+  async getAllEvents(): Promise<IEventDataDocument[]> {
     return this.eventRepository.findAllEvents();
   }
 
-  async getEventById(id: string): Promise<IEventData | null> {
+  async getEventById(id: string): Promise<IEventDataDocument | null> {
     return this.eventRepository.findById(id);
   }
 
-  async createEvent(eventData: IEventData): Promise<IEventData | null> {
+  async createEvent(eventData: ICreateEventData): Promise<IEventDataDocument | null> {
     return this.eventRepository.createEvent(eventData);
   }
 
@@ -20,7 +20,7 @@ export class EventService implements IEventService {
     return this.eventRepository.deleteEvent(id);
   }
 
-  async updateEvent(eventData: IEventData): Promise<boolean> {
+  async updateEvent(eventData: IUpdateEventData): Promise<boolean> {
     return this.eventRepository.updateEvent(eventData);
   }
     

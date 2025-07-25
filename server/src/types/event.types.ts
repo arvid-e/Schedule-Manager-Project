@@ -1,39 +1,36 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
-export interface ICreateEventData {
-    title: string,
-    description: string
+export interface IEventDataDocumentPayload {
+    title: string;
+    description: string;
 }
 
 export interface IUpdateEventData {
-    _id: string,
-    title?: string,
-    description?: string,
-    createdAt?: Date;
-    updatedAt?: Date;
+    _id: string;
+    title?: string;
+    description?: string;
 }
 
-
-export interface IEventData extends Document {
-    _id: string,
-    title: string,
-    description: string,
-    createdAt: Date;
-    updatedAt: Date;
+export interface ICreateEventData {
+    title: string;
+    description?: string;
 }
+
+export interface IEventDataDocument extends IEventDataDocumentPayload, Document {}
+
 
 export interface IEventRepository {
-    findAllEvents(): Promise<IEventData[]>;
-    findById(id: string): Promise<IEventData | null>;
-    createEvent(eventData: IEventData): Promise<IEventData>;
+    findAllEvents(): Promise<IEventDataDocument[]>;
+    findById(id: string): Promise<IEventDataDocument | null>;
+    createEvent(eventData: ICreateEventData): Promise<IEventDataDocument>;
     deleteEvent(id: string): Promise<boolean>;
     updateEvent(eventData: IUpdateEventData): Promise<boolean>;
 }
 
 export interface IEventService {
-    getAllEvents(): Promise<IEventData[] | null>;
-    getEventById(id: string): Promise<IEventData | null>;
-    createEvent(eventData: IEventData): Promise<IEventData | null>;
+    getAllEvents(): Promise<IEventDataDocument[]>;
+    getEventById(id: string): Promise<IEventDataDocument | null>;
+    createEvent(eventData: ICreateEventData): Promise<IEventDataDocument | null>;
     deleteEvent(id: string): Promise<boolean>;
-    updateEvent(eventData: IEventData): Promise<boolean>;
+    updateEvent(eventData: IUpdateEventData): Promise<boolean>;
 }

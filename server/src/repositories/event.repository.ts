@@ -1,15 +1,15 @@
 import EventModel from "@app/models/event.model";
-import { ICreateEventData, IEventData, IEventRepository, IUpdateEventData } from "@app/types/event.types";
+import { ICreateEventData, IEventDataDocument, IEventRepository, IUpdateEventData } from "@app/types/event.types";
 
 export class EventRepository implements IEventRepository {
 
     constructor(private eventModel: typeof EventModel) {}
 
-    async findAllEvents(): Promise<IEventData[]> {
+    async findAllEvents(): Promise<IEventDataDocument[]> {
         return await this.eventModel.find();
     }
 
-    async findById(id: string): Promise<IEventData | null> {
+    async findById(id: string): Promise<IEventDataDocument | null> {
         const event = await this.eventModel.findById(id);
         if (event) {
             return event.toObject();
@@ -17,7 +17,7 @@ export class EventRepository implements IEventRepository {
         return event;
     }
 
-    async createEvent(eventData: ICreateEventData): Promise<IEventData> {
+    async createEvent(eventData: ICreateEventData): Promise<IEventDataDocument> {
         return (await this.eventModel.create(eventData)).toObject();
     }
 

@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { IEventData } from '../types/event.types';
+import { IEventDataDocument } from '../types/event.types';
 
-const eventSchema = new Schema<IEventData>({
+const eventSchema = new Schema<IEventDataDocument>({
     title: {
         type: String,
         required: [true, 'Title is required'],
@@ -13,5 +13,5 @@ const eventSchema = new Schema<IEventData>({
     timestamps: true, 
 });
 
-const EventModel = model<IEventData>('Event', eventSchema);
+const EventModel = model<IEventDataDocument>('Event', eventSchema);
 export default EventModel;
