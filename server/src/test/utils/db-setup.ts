@@ -7,6 +7,7 @@ const TEST_DB_URI = process.env.MONGO_URI_TEST || 'mongodb://localhost:27017/app
 export const connectTestDB = async (): Promise<void> => {
     if (mongoose.connection.readyState === 0) {
         try {
+            console.log(`Connecting to test MongoDB...${TEST_DB_URI}`);
             await mongoose.connect(TEST_DB_URI);
             console.log(`Connected to test MongoDB: ${TEST_DB_URI}`);
         } catch (error) {
