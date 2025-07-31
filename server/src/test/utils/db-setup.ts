@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import User from '@app/models/user.model';
+import bcrypt from 'bcryptjs';
 
 // Ensure your test DB URI is defined in your .env.test or test environment config
 const TEST_DB_URI = process.env.MONGO_URI_TEST || 'mongodb://localhost:27017/app-test-db';
@@ -37,7 +38,7 @@ export const clearTestDB = async (): Promise<void> => {
 
 export const seedTestDB = async (): Promise<void> => {
     // Example: Seed a user for login tests
-    const hashedPassword = await (import('bcryptjs') as any).hash('testpassword123', 10); // Hash password for seeding
+    const hashedPassword = await bcrypt.hash('testpassword123', 10); // Hash password for seeding
     await User.create({
         username: 'seededuser',
         password: hashedPassword,

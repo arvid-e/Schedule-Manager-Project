@@ -39,14 +39,14 @@ describe('Auth API Integration Tests', () => {
 
     // --- Test Cases ---
 
-    describe('POST /api/auth/register', () => {
+    describe('POST /auth/register', () => {
         it('should register a new user and return a token (201)', async () => {
             const registerData: IRegisterData = {
                 username: 'newuser',
                 password: 'newsecurepassword123',
             };
 
-            const res = await api.post('/api/auth/register').send(registerData);
+            const res = await api.post('/auth/register').send(registerData);
 
             expect(res.statusCode).toBe(201);
             expect(res.body).toHaveProperty('user');
@@ -69,7 +69,7 @@ describe('Auth API Integration Tests', () => {
                 password: 'anypassword',
             };
 
-            const res = await api.post('/api/auth/register').send(registerData);
+            const res = await api.post('/auth/register').send(registerData);
 
             expect(res.statusCode).toBe(409); // Conflict status code
             expect(res.body).toHaveProperty('message');
@@ -82,7 +82,7 @@ describe('Auth API Integration Tests', () => {
                 // password is missing
             };
 
-            const res = await api.post('/api/auth/register').send(registerData);
+            const res = await api.post('/auth/register').send(registerData);
 
             expect(res.statusCode).toBe(400); // Bad Request status code
             expect(res.body).toHaveProperty('message');
@@ -98,7 +98,7 @@ describe('Auth API Integration Tests', () => {
         };
 
         it('should log in an existing user and return a token (200)', async () => {
-            const res = await api.post('/api/auth/login').send(seededUserLogin);
+            const res = await api.post('/auth/login').send(seededUserLogin);
 
             expect(res.statusCode).toBe(200);
             expect(res.body).toHaveProperty('user');
@@ -113,7 +113,7 @@ describe('Auth API Integration Tests', () => {
                 password: 'wrongpassword',
             };
 
-            const res = await api.post('/api/auth/login').send(invalidLogin);
+            const res = await api.post('/auth/login').send(invalidLogin);
 
             expect(res.statusCode).toBe(401); // Unauthorized status code
             expect(res.body).toHaveProperty('message');
@@ -126,7 +126,7 @@ describe('Auth API Integration Tests', () => {
                 password: 'anypassword',
             };
 
-            const res = await api.post('/api/auth/login').send(nonExistentLogin);
+            const res = await api.post('/auth/login').send(nonExistentLogin);
 
             expect(res.statusCode).toBe(401); // Unauthorized status code
             expect(res.body).toHaveProperty('message');
@@ -135,7 +135,7 @@ describe('Auth API Integration Tests', () => {
     });
 
     // --- Example: Protected Route Test (requires a token) ---
-    describe('GET /api/events (Protected)', () => {
+    describe('GET /events (Protected)', () => {
         let authToken: string;
 
         // Before this describe block, log in a user to get a token
@@ -144,7 +144,7 @@ describe('Auth API Integration Tests', () => {
             await clearTestDB();
             await seedTestDB();
 
-            const loginRes = await api.post('/api/auth/login').send({
+            const loginRes = await api.post('/auth/login').send({
                 username: 'seededuser',
                 password: 'testpassword123',
             });
@@ -167,7 +167,7 @@ describe('Auth API Integration Tests', () => {
                 updatedAt: new Date(),
             });
 
-            const res = await api.get('/api/events').set('Authorization', `Bearer ${authToken}`);
+            const res = await api.get('/events').set('Authorization', `Bearer ${authToken}`);
 
             expect(res.statusCode).toBe(200);
             expect(res.body).toBeInstanceOf(Array);
@@ -176,14 +176,14 @@ describe('Auth API Integration Tests', () => {
         });
 
         it('should return 401 Unauthorized if no token is provided', async () => {
-            const res = await api.get('/api/events'); // No Authorization header
+            const res = await api.get('/events'); // No Authorization header
 
             expect(res.statusCode).toBe(401);
             expect(res.body).toHaveProperty('message');
         });
 
         it('should return 401 Unauthorized if an invalid token is provided', async () => {
-            const res = await api.get('/api/events').set('Authorization', 'Bearer invalid.jwt.token');
+            const res = await api.get('/events').set('Authorization', 'Bearer invalid.jwt.token');
 
             expect(res.statusCode).toBe(401);
             expect(res.body).toHaveProperty('message');

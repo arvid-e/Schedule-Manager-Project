@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { catchAsync } from '@app/utils/catchAsync';
 import { AuthService } from '@app/services/auth.service';
+import { IRegisterData } from '@app/types/auth.types';
 // import { AppError } from '../utils/appError';         // Custom application error class
 
 
@@ -16,7 +17,7 @@ export class AuthController {
     public register = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
  
         const { username, password } = req.body;
-        const userData = {
+        const userData: IRegisterData = {
             username,
             password,
         }
