@@ -17,6 +17,7 @@ export class AuthController {
     public register = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
  
         const { username, password } = req.body;
+
         const userData: IRegisterData = {
             username,
             password,
@@ -27,12 +28,10 @@ export class AuthController {
         res.status(201).json({
             status: 'success',
             message: 'User registered successfully!',
-            data: {
-                user: {
-                    id: user.id,
-                },
-                token,
+            user: {
+                id: user.id,
             },
+            token,  
         });
     });
 
@@ -48,21 +47,15 @@ export class AuthController {
             password: password
         }
 
-        if (!username || !password) {
-            return next(new Error('Please provide name and password!'));
-        }
-
         const { user, token } = await this.authService.loginUser(loginData);
 
         res.status(200).json({
             status: 'success',
             message: 'Logged in successfully!',
-            data: {
-                user: {
-                    id: user.id,
-                },
-                token,
+            user: {
+                id: user.id,
             },
+            token,  
         });
     });
 

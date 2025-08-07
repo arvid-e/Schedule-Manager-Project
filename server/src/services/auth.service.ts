@@ -3,10 +3,11 @@ import { AuthRespository, ConflictError, DatabaseError } from "@app/repositories
 import { IAuthResponse, IAuthService, ILoginData, IRegisterData, ITokenService } from "@app/types/auth.types";
 import bcrypt from 'bcryptjs';
 
-class AuthError extends Error {}
-class UserNotFoundError extends AuthError {}
-class InvalidCredentialsError extends AuthError {}
-class UsernameTakenError extends AuthError {}
+export class AuthError extends Error {}
+export class BadRequestError extends AuthError {}
+export class UserNotFoundError extends AuthError {}
+export class InvalidCredentialsError extends AuthError {}
+export class UsernameTakenError extends AuthError {}
 
 export class AuthService implements IAuthService {
     constructor(private authRepository: AuthRespository, private tokenService: ITokenService) {}
@@ -15,6 +16,10 @@ export class AuthService implements IAuthService {
 
         try {
             const { username, password } = loginData;
+
+            if (!username || !password) {
+                throw new BadRequestError('Username or password missing.')
+            }
 
             const user = await this.authRepository.findUser(username);
 
@@ -25,9 +30,9 @@ export class AuthService implements IAuthService {
             const hashedPassword = user.password;
 
              if (hashedPassword === undefined) {
-                throw new Error('User data missing password hash.');
+                throw new AuthError('User data missing password hash.');
             }
-
+            
             const correctPassword = await bcrypt.compare(password, hashedPassword);
 
             if (!correctPassword) {
@@ -73,6 +78,12 @@ export class AuthService implements IAuthService {
 
         try {
             const { username, password } = registerData;
+            console.log(username, password);
+
+            if (!username || !password) {
+                throw new BadRequestError('Username or password missing.')
+            }
+
 
             const userNameTaken = await this.authRepository.findUser(username);
 
@@ -105,12 +116,13 @@ export class AuthService implements IAuthService {
         } 
         
         catch (error) {
+            if (error instanceof BadRequestError) {
+                throw error;
+            }
             if (error instanceof UsernameTakenError) {
                 throw error;
             }
-            // Handle errors propagated from the repository
             if (error instanceof ConflictError) {
-                // Re-throw as ConflictError or wrap in AuthError, depending on desired abstraction.
                 throw new AuthError(`Registration failed: ${error.message}`);
             }
             if (error instanceof DatabaseError) {

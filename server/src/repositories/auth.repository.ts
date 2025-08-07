@@ -24,7 +24,6 @@ export class AuthRespository implements IAuthRepository {
             if (error.code === 11000 && error.keyPattern && error.keyPattern.username) {
                 throw new ConflictError('User with this username already exists.');
             }
-            // Check for Mongoose ValidationError by name and constructor
             if (error.name === 'ValidationError' || error instanceof mongoose.Error.ValidationError) {
                 throw new DatabaseError(`Validation failed: ${error.message}`);
             }

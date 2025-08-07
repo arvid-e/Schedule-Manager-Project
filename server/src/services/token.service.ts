@@ -8,14 +8,14 @@ export class TokenService implements ITokenService {
     generateJwtToken(payload: { userId: string; roles?: string[]; }): string {
         try {
             if (!JWT_EXPIRES_IN || ! JWT_SECRET) {
-                throw new Error('FATAL ERROR: JWT_SECRET environment variable is not defined.');
+                throw new jwt.JsonWebTokenError('JWT_SECRET environment variable is not defined.');
             }
    
             const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
             return token;
  
         } catch (error) {
-            throw Error('FATAL ERROR: Couldnt generate token.')
+            throw new jwt.JsonWebTokenError('Couldnt generate token.')
         }
     }
 

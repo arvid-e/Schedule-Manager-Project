@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IEventData } from '../types/event.types';
+import { ICreateEventData, IEventDataDocument, IUpdateEventData } from '../types/event.types';
 import { catchAsync } from '../utils/catchAsync';
 import { EventService } from '../services/event.service';
 
@@ -13,10 +13,10 @@ export class EventController {
 
         res.status(200).json({
             status: 'success',
-            message: 'Fetched all events successfully!',
+            message: 'Events fetched successfully!',
             data: {
-                event: events,
-            },
+                events
+            }
         });
         
     });
@@ -48,7 +48,7 @@ export class EventController {
     });
 
     public createEvent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const eventData: IEventData = req.body;
+        const eventData: ICreateEventData = req.body;
         const newEvent = await this.eventService.createEvent(eventData);
         
         res.status(201).json({
@@ -89,14 +89,13 @@ export class EventController {
 
     public editEvent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const eventId = req.params.id;
-        const updateFields: Partial<IEventData> = req.body;
+        const updateFields: IUpdateEventData = req.body;
 
-        const eventData: IEventData = {
-            _id: eventId,
+        const eventData: IUpdateEventData = {
             ...updateFields
-        } as IEventData
+        }
 
-        const edited = await this.eventService.editEvent(eventData);
+        const edited = await this.eventService.updateEvent(eventData);
 
         if (edited) {
             res.status(200).json({

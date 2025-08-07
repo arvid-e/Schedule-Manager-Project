@@ -1,14 +1,14 @@
 import request from 'supertest'; 
 import { app } from '@app/app';
 import { connectTestDB, disconnectTestDB, clearTestDB, seedTestDB } from '../utils/db-setup'; 
-import User from '@app/models/user.model'; // Import models to check DB state directly (optional but good)
+import User from '@app/models/user.model';
 import { ILoginData, IRegisterData } from '@app/types/auth.types';
 import EventModel from '@app/models/event.model';
 
 vi.mock('@app/config/constants', () => ({
-    BCRYPT_SALT_ROUNDS: 10, // Provide a mock value
-    JWT_SECRET: 'mock_jwt_secret_for_integration_tests', // Provide a mock value
-    JWT_EXPIRES_IN: '1h', // Provide a mock value
+    BCRYPT_SALT_ROUNDS: 10, 
+    JWT_SECRET: 'mock_jwt_secret_for_integration_tests', 
+    JWT_EXPIRES_IN: '1h', 
 }));
 
 describe('Auth API Integration Tests', () => {
@@ -22,7 +22,7 @@ describe('Auth API Integration Tests', () => {
         process.env.JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
         process.env.BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS || '10';
 
-        await connectTestDB(); // Connect to the test database
+        await connectTestDB(); 
         api = request(app) as unknown as request.SuperTest<request.Test>;
     });
 
@@ -38,7 +38,6 @@ describe('Auth API Integration Tests', () => {
     });
 
     // --- Test Cases ---
-
     describe('POST /auth/register', () => {
         it('should register a new user and return a token (201)', async () => {
             const registerData: IRegisterData = {
@@ -71,9 +70,9 @@ describe('Auth API Integration Tests', () => {
 
             const res = await api.post('/auth/register').send(registerData);
 
-            expect(res.statusCode).toBe(409); // Conflict status code
+            expect(res.statusCode).toBe(409); 
             expect(res.body).toHaveProperty('message');
-            expect(res.body.message).toContain('Username is already taken'); // Or whatever your error message is
+            expect(res.body.message).toContain('Username is already taken');
         });
 
         it('should return 400 Bad Request for invalid registration data (e.g., missing password)', async () => {
@@ -84,17 +83,16 @@ describe('Auth API Integration Tests', () => {
 
             const res = await api.post('/auth/register').send(registerData);
 
-            expect(res.statusCode).toBe(400); // Bad Request status code
+            expect(res.statusCode).toBe(400); 
             expect(res.body).toHaveProperty('message');
-            // Expect a message related to validation failure
-            expect(res.body.message).toContain('Password is required');
+            expect(res.body.message).toContain('Username or password missing.');
         });
     });
 
-    describe('POST /api/auth/login', () => {
+    describe('POST /auth/login', () => {
         const seededUserLogin: ILoginData = {
             username: 'seededuser',
-            password: 'testpassword123', // Matches what's seeded in db-setup
+            password: 'testpassword123',
         };
 
         it('should log in an existing user and return a token (200)', async () => {
@@ -115,9 +113,9 @@ describe('Auth API Integration Tests', () => {
 
             const res = await api.post('/auth/login').send(invalidLogin);
 
-            expect(res.statusCode).toBe(401); // Unauthorized status code
+            expect(res.statusCode).toBe(401);
             expect(res.body).toHaveProperty('message');
-            expect(res.body.message).toContain('Incorrect password!'); // Or your specific error message
+            expect(res.body.message).toContain('Incorrect password.');
         });
 
         it('should return 401 Unauthorized for non-existent username', async () => {
@@ -128,14 +126,14 @@ describe('Auth API Integration Tests', () => {
 
             const res = await api.post('/auth/login').send(nonExistentLogin);
 
-            expect(res.statusCode).toBe(401); // Unauthorized status code
+            expect(res.statusCode).toBe(401);
             expect(res.body).toHaveProperty('message');
-            expect(res.body.message).toContain('Cant find user!'); // Or your specific error message
+            expect(res.body.message).toContain('User not found.');
         });
     });
 
-    // --- Example: Protected Route Test (requires a token) ---
-    describe('GET /events (Protected)', () => {
+    // Protected Route Test (requires a token) 
+    describe('GET /event (Protected)', () => {
         let authToken: string;
 
         // Before this describe block, log in a user to get a token
@@ -149,11 +147,10 @@ describe('Auth API Integration Tests', () => {
                 password: 'testpassword123',
             });
             authToken = loginRes.body.token;
-            expect(authToken).toBeDefined(); // Ensure we got a token
+            expect(authToken).toBeDefined();
         });
 
         it('should return events for an authenticated user (200)', async () => {
-            // Optional: Seed some events here if you want to test retrieval
             await EventModel.create({
                 title: 'Test Event 1',
                 description: 'Description 1',
@@ -167,23 +164,22 @@ describe('Auth API Integration Tests', () => {
                 updatedAt: new Date(),
             });
 
-            const res = await api.get('/events').set('Authorization', `Bearer ${authToken}`);
-
+            const res = await api.get('/event').set('Authorization', `Bearer ${authToken}`);
             expect(res.statusCode).toBe(200);
-            expect(res.body).toBeInstanceOf(Array);
-            expect(res.body.length).toBeGreaterThanOrEqual(2); // Expect at least the seeded events
-            expect(res.body[0]).toHaveProperty('title');
+            expect(res.body.data.events).toBeInstanceOf(Array);
+            expect(res.body.data.events.length).toBeGreaterThanOrEqual(2); 
+            expect(res.body.data.events[0]).toHaveProperty('title');
         });
 
         it('should return 401 Unauthorized if no token is provided', async () => {
-            const res = await api.get('/events'); // No Authorization header
+            const res = await api.get('/event'); 
 
             expect(res.statusCode).toBe(401);
             expect(res.body).toHaveProperty('message');
         });
 
         it('should return 401 Unauthorized if an invalid token is provided', async () => {
-            const res = await api.get('/events').set('Authorization', 'Bearer invalid.jwt.token');
+            const res = await api.get('/event').set('Authorization', 'Bearer invalid.jwt.token');
 
             expect(res.statusCode).toBe(401);
             expect(res.body).toHaveProperty('message');
