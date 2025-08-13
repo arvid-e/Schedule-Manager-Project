@@ -11,7 +11,8 @@ build/
 
 # Environment variables
 .env            # Primary environment file (contains secrets, should NEVER be committed)
-.env.* # Any variations like .env.development, .env.production, etc.
+.env.*
+
 !.env.example   # Keep .env.example if you want to provide a template for others
 
 # Logs
