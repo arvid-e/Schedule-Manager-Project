@@ -1,7 +1,10 @@
 import React, { useState, type ChangeEvent } from 'react';
 
+interface ToDoListProps {
+    title: string;
+}
 
-function ToDoList() {
+function ToDoList({ title }: ToDoListProps) {
 
     const [tasks, setTasks] = useState<string[]>([]);
     const [newTask, setNewTask] = useState("");
@@ -26,7 +29,7 @@ function ToDoList() {
     return(
     <div className='to-do-list'>
 
-        <h1>List</h1>
+        <h1>{ title }</h1>
 
         <div>
             <input

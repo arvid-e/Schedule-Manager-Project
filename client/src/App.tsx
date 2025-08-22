@@ -10,13 +10,13 @@ function App() {
       <Header/>
       
       <div id='to-to-list-container'>
-        <ToDoList/>
-        <ToDoList/>
-        <ToDoList/>
-        <ToDoList/>
-        <ToDoList/>
-        <ToDoList/>
-        <ToDoList/>
+        <ToDoList title="Monday"/>
+        <ToDoList title="Tuesday"/>
+        <ToDoList title="Wednesday"/>
+        <ToDoList title="Thursday"/>
+        <ToDoList title="Friday"/>
+        <ToDoList title="Saturday"/>
+        <ToDoList title="Sunday"/>
       </div>
 
       <Footer/>
