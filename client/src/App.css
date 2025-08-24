@@ -1,3 +1,7 @@
+body {
+    display: flex;
+}
+
 #to-to-list-container {
     display: flex;
     gap: 55px;

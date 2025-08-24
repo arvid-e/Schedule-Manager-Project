@@ -1,0 +1,26 @@
+.newTaskBox {
+    display: flex;
+    gap: 50px;
+}
+
+.newTaskForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.newTaskTitle {
+    width: 200px;
+    height: 25px;
+}
+
+.newTaskDescription {
+    width: 200px;
+    height: 80px;  
+    text-align: left;
+    vertical-align: top;
+    align-items: flex-start;
+}
+
+.newTaskButton {
+    
+}

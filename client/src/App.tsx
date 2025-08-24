@@ -1,13 +1,15 @@
 import './App.css'
-import Header from './components/Header';
-import Footer from './components/Footer';
-import ToDoList from './components/ToDoList';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import ToDoList from './components/ToDoList/ToDoList';
+import NewTaskBox from './components/NewTaskBox/NewTaskBox';
 
 function App() {
 
   return (
     <>
       <Header/>
+      <NewTaskBox/>
       
       <div id='to-to-list-container'>
         <ToDoList title="Monday"/>
