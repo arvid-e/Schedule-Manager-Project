@@ -1,13 +1,16 @@
 import { BCRYPT_SALT_ROUNDS } from "@app/config/constants";
 import type { IAuthResponse } from "@app/interface/auth";
 import type { IAuthService } from "@app/interface/auth-service";
+import { ITokenService } from "@app/interface/token-service";
 import type { ILoginData, IRegisterUser } from "@app/interface/user";
 import { IUserRepository } from "@app/interface/user-repository";
 import bcrypt from "bcryptjs";
-import { jwtProvider } from "./jwt-provider";
 
 export class AuthService implements IAuthService {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    private userRepository: IUserRepository,
+    private tokenService: ITokenService,
+  ) {}
 
   async login(loginData: ILoginData): Promise<IAuthResponse> {
     const { username, password } = loginData;
@@ -29,16 +32,11 @@ export class AuthService implements IAuthService {
     }
 
     const userId = user._id.toString();
-
-    const accessToken = jwtProvider.sign({ id: userId }, { expiresIn: "15m" });
-    const refreshToken = jwtProvider.sign({ id: userId }, { expiresIn: "7d" });
+    const tokens = await this.tokenService.generateAccessPair(userId);
 
     return {
       user,
-      token: {
-        accessToken,
-        refreshToken,
-      },
+      tokens,
     };
   }
 
@@ -56,16 +54,11 @@ export class AuthService implements IAuthService {
       password: hashedPassword,
     });
     const userId = user._id.toString();
-
-    const accessToken = jwtProvider.sign({ id: userId }, { expiresIn: "15m" });
-    const refreshToken = jwtProvider.sign({ id: userId }, { expiresIn: "7d" });
+    const tokens = await this.tokenService.generateAccessPair(userId);
 
     return {
       user,
-      token: {
-        accessToken,
-        refreshToken,
-      },
+      tokens,
     };
   }
 }

@@ -8,7 +8,7 @@ export interface ILoginData {
 
 export interface IAuthResponse {
   user: IUser;
-  token: ITokenResponse;
+  tokens: ITokenResponse;
 }
 
 export interface IAuthPayload {
