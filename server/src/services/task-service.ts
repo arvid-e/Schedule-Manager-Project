@@ -1,33 +1,27 @@
-import {
-  ICreateEventData,
-  IEventDataDocument,
-  IEventRepository,
-  IEventService,
-  IUpdateEventData,
-} from "../interface/task";
+import { ITask, ITaskDocument, IUpdateTask } from "@app/interface/task";
+import { ITaskRepository } from "@app/interface/task-repository";
+import { ITaskService } from "@app/interface/task-service";
 
-export class EventService implements IEventService {
-  constructor(private eventRepository: IEventRepository) {}
+export class TaskService implements ITaskService {
+  constructor(private taskRepository: ITaskRepository) {}
 
-  async getAllEvents(): Promise<IEventDataDocument[]> {
-    return this.eventRepository.findAllEvents();
+  async getAllTasks(): Promise<ITaskDocument[]> {
+    return this.taskRepository.findAll();
   }
 
-  async getEventById(id: string): Promise<IEventDataDocument | null> {
-    return this.eventRepository.findById(id);
+  async getTaskById(id: string): Promise<ITaskDocument | null> {
+    return this.taskRepository.findById(id);
   }
 
-  async createEvent(
-    eventData: ICreateEventData,
-  ): Promise<IEventDataDocument | null> {
-    return this.eventRepository.createEvent(eventData);
+  async createTask(task: ITask): Promise<ITaskDocument> {
+    return this.taskRepository.create(task);
   }
 
-  async deleteEvent(id: string): Promise<boolean> {
-    return this.eventRepository.deleteEvent(id);
+  async deleteTaskById(id: string): Promise<boolean> {
+    return this.taskRepository.delete(id);
   }
 
-  async updateEvent(eventData: IUpdateEventData): Promise<boolean> {
-    return this.eventRepository.updateEvent(eventData);
+  async updateTask(taskData: IUpdateTask): Promise<boolean> {
+    return this.taskRepository.update(taskData);
   }
 }
