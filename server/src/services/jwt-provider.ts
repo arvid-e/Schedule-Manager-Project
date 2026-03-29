@@ -13,3 +13,5 @@ export class JwtProvider implements IJwtProvider {
     return jwt.verify(token, this.secret) as IDecodedToken;
   }
 }
+
+export const jwtProvider = new JwtProvider();
