@@ -1,6 +1,6 @@
 import { AuthController } from "@app/controllers/auth.controller";
 import User from "@app/models/user-model";
-import { AuthRespository } from "@app/repositories/auth.repository";
+import { AuthRespository } from "@app/repositories/user-repository";
 import { AuthService } from "@app/services/auth.service";
 import { TokenService } from "@app/services/token.service";
 import { Router } from "express";

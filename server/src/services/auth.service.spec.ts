@@ -9,7 +9,7 @@ import {
   AuthRespository,
   ConflictError,
   DatabaseError,
-} from "@app/repositories/auth.repository";
+} from "@app/repositories/user-repository";
 import bcrypt from "bcryptjs";
 import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { AuthService } from "./auth.service";

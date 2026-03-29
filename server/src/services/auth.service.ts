@@ -10,7 +10,7 @@ import {
   AuthRespository,
   ConflictError,
   DatabaseError,
-} from "@app/repositories/auth.repository";
+} from "@app/repositories/user-repository";
 import bcrypt from "bcryptjs";
 
 export class AuthError extends Error {}
