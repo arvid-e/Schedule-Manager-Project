@@ -1,4 +1,4 @@
-import { AuthController } from "@app/controllers/auth.controller";
+import { AuthController } from "@app/controllers/auth-controller";
 import User from "@app/models/user-model";
 import { AuthRespository } from "@app/repositories/user-repository";
 import { AuthService } from "@app/services/auth-service";
