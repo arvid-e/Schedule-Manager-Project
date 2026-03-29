@@ -9,13 +9,13 @@ export class AuthController {
     async (req: Request, res: Response, next: NextFunction) => {
       const { username, password } = req.body;
 
-      const { user, token } = await this.authService.register({ username, password });
+      const { user, tokens } = await this.authService.register({ username, password });
 
       res.status(201).json({
         status: "success",
         message: "User registered successfully!",
         user,
-        token,
+        tokens,
       });
     },
   );
@@ -24,13 +24,13 @@ export class AuthController {
     async (req: Request, res: Response, next: NextFunction) => {
       const { username, password } = req.body;
 
-      const { user, token } = await this.authService.login({ username, password });
+      const { user, tokens } = await this.authService.login({ username, password });
 
       res.status(200).json({
         status: "success",
         message: "Logged in successfully!",
         user,
-        token,
+        tokens,
       });
     },
   );

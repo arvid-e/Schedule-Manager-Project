@@ -22,5 +22,5 @@ const taskSchema = new Schema<ITaskDocument>(
   },
 );
 
-const TaskModel = model<ITaskDocument>("Task", taskSchema);
-export default TaskModel;
+const Task = model<ITaskDocument>("Task", taskSchema);
+export default Task;

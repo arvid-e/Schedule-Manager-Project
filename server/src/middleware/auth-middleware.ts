@@ -1,6 +1,6 @@
 import type { UserRequestWithId } from "@app/interface/requests";
-import { NextFunction, Response } from "express";
 import { jwtProvider } from "@app/services/jwt-provider";
+import { NextFunction, Response } from "express";
 
 export const protect = (
   req: UserRequestWithId,
@@ -10,9 +10,8 @@ export const protect = (
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res
-      .status(401)
-      .json({ message: "Not authorized, no token provided" });
+    res.status(401).json({ message: "Not authorized, no token provided" });
+    return;
   }
 
   const token = authHeader.split(" ")[1];
@@ -24,6 +23,6 @@ export const protect = (
 
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Not authorized, token failed" });
+    return next(new Error("Invalid or expired authorization token"));
   }
 };

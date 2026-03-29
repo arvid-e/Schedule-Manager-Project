@@ -4,10 +4,10 @@ import { ITask, IUpdateTask } from "@app/interface/task";
 import { ITaskService } from "@app/interface/task-service";
 import { catchAsync } from "../utils/catchAsync";
 
-export class EventController {
+export class TaskController {
   constructor(private taskService: ITaskService) {}
 
-  public getAllTasks = catchAsync(
+  getAllTasks = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const events = await this.taskService.getAllTasks();
 
@@ -21,7 +21,7 @@ export class EventController {
     },
   );
 
-  public getTaskById = catchAsync(
+  getTaskById = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
 
