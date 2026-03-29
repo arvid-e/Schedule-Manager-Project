@@ -1,7 +1,12 @@
-import { ICreateEventData, IEventDataDocument, IEventRepository, IEventService, IUpdateEventData } from "../types/event.types";
+import {
+  ICreateEventData,
+  IEventDataDocument,
+  IEventRepository,
+  IEventService,
+  IUpdateEventData,
+} from "../interface/task";
 
 export class EventService implements IEventService {
-
   constructor(private eventRepository: IEventRepository) {}
 
   async getAllEvents(): Promise<IEventDataDocument[]> {
@@ -12,7 +17,9 @@ export class EventService implements IEventService {
     return this.eventRepository.findById(id);
   }
 
-  async createEvent(eventData: ICreateEventData): Promise<IEventDataDocument | null> {
+  async createEvent(
+    eventData: ICreateEventData,
+  ): Promise<IEventDataDocument | null> {
     return this.eventRepository.createEvent(eventData);
   }
 
@@ -23,5 +30,4 @@ export class EventService implements IEventService {
   async updateEvent(eventData: IUpdateEventData): Promise<boolean> {
     return this.eventRepository.updateEvent(eventData);
   }
-    
 }

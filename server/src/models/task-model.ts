@@ -1,0 +1,26 @@
+import type { ITaskDocument } from "@app/interface/task";
+import { Schema, model } from "mongoose";
+
+const taskSchema = new Schema<ITaskDocument>(
+  {
+    title: {
+      type: String,
+      required: [true, "Title is required"],
+    },
+    description: {
+      type: String,
+    },
+    date: {
+      type: Date,
+    },
+    time: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+const TaskModel = model<ITaskDocument>("Task", taskSchema);
+export default TaskModel;
