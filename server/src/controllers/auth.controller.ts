@@ -1,5 +1,5 @@
 import { IRegisterData } from "@app/interface/auth.types";
-import { AuthService } from "@app/services/auth.service";
+import { AuthService } from "@app/services/auth-service";
 import { catchAsync } from "@app/utils/catchAsync";
 import { NextFunction, Request, Response } from "express";
 // import { AppError } from '../utils/appError';         // Custom application error class

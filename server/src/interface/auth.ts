@@ -1,7 +1,5 @@
-export interface JwtPayload {
-  userId: string;
-  roles?: string[];
-}
+import type { JwtPayload } from "jsonwebtoken";
+import type { IUser } from "./user";
 
 export interface ILoginData {
   username: string;
@@ -9,8 +7,22 @@ export interface ILoginData {
 }
 
 export interface IAuthResponse {
-  user: {
-    id: string;
-  };
-  token: string;
+  user: IUser;
+  token: ITokenResponse;
 }
+
+export interface IAuthPayload {
+  id: string;
+}
+
+export interface ITokenResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface IDecodedToken extends JwtPayload, IAuthPayload {
+  iat: number; // Issued at (timestamp)
+  exp: number; // Expiration (timestamp)
+}
+
+

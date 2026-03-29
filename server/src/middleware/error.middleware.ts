@@ -6,7 +6,7 @@ import {
   InvalidCredentialsError,
   UsernameTakenError,
   UserNotFoundError,
-} from "../services/auth.service"; // Assuming these are defined in auth.service.ts or a dedicated errors file
+} from "../services/auth-service"; // Assuming these are defined in auth.service.ts or a dedicated errors file
 
 export const errorHandler = (
   err: Error,

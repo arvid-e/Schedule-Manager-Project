@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ICreateEventData, IUpdateEventData } from "../interface/task";
-import { EventService } from "../services/event.service";
+import { EventService } from "../services/task-service";
 import { catchAsync } from "../utils/catchAsync";
 
 export class EventController {

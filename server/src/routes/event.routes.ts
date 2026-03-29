@@ -1,7 +1,7 @@
 import protect from "@app/middleware/auth.middleware";
 import EventModel from "@app/models/task-model";
 import { EventRepository } from "@app/repositories/task-repository";
-import { EventService } from "@app/services/event.service";
+import { EventService } from "@app/services/task-service";
 import { Router } from "express";
 import { EventController } from "../controllers/event.controller";
 
