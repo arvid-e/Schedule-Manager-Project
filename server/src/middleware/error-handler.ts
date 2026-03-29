@@ -1,9 +1,14 @@
-import type { NextFunction, Request, Response } from "express";
+import type {
+  ErrorRequestHandler,
+  NextFunction,
+  Request,
+  Response,
+} from "express";
 
 /**
  * Handles Mongoose and MongoDB errors and sets the correct status code and error message.
  */
-export const globalErrorHandler = (
+export const globalErrorHandler: ErrorRequestHandler = (
   err: any,
   req: Request,
   res: Response,
@@ -33,7 +38,7 @@ export const globalErrorHandler = (
 
   if (statusCode === 500) console.error("ERROR:", err);
 
-  return res.status(statusCode).json({
+  res.status(statusCode).json({
     error: message,
   });
 };
