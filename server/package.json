@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A tool for managing your schedule",
   "main": "index.js",
+  "type":"module",
   "scripts": {
     "build": "tsc",
     "start": "node -r ./register-paths-docker.js dist/server.js",

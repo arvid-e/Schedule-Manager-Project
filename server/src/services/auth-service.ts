@@ -19,6 +19,14 @@ export class AuthService implements IAuthService {
       throw new Error("Username or password missing.");
     }
 
+    if (username.length < 3) {
+      throw new Error("Username is too short.");
+    }
+
+    if (password.length < 8) {
+      throw new Error("Password is too short.");
+    }
+
     const user = await this.userRepository.findByUsername(username);
 
     if (!user) {
@@ -45,6 +53,19 @@ export class AuthService implements IAuthService {
 
     if (!username || !password) {
       throw new Error("Invalid username or password.");
+    }
+
+    if (username.length < 3) {
+      throw new Error("Username is too short.");
+    }
+
+    if (password.length < 8) {
+      throw new Error("Password is too short.");
+    }
+
+    const existingUser = await this.userRepository.findByUsername(username);
+    if (existingUser != null) {
+      throw new Error("Username is taken.");
     }
 
     const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
