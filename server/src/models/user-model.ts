@@ -7,6 +7,7 @@ const userSchema = new Schema<IUserDocument>(
       type: String,
       required: [true, "Name is required"],
       trim: true,
+      minlength: 3,
     },
     password: {
       type: String,
