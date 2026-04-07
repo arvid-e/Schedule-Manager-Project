@@ -1,12 +1,12 @@
-import { AuthController } from "@app/controllers/auth-controller";
-import Token from "@app/models/token-model";
-import User from "@app/models/user-model";
-import { TokenRepository } from "@app/repositories/token-repository";
-import { UserRespository } from "@app/repositories/user-repository";
-import { AuthService } from "@app/services/auth-service";
-import { jwtProvider } from "@app/services/jwt-provider";
-import { TokenService } from "@app/services/token-service";
 import { Router } from "express";
+import { AuthController } from "../controllers/auth-controller.js";
+import Token from "../models/token-model.js";
+import User from "../models/user-model.js";
+import { TokenRepository } from "../repositories/token-repository.js";
+import { UserRespository } from "../repositories/user-repository.js";
+import { AuthService } from "../services/auth-service.js";
+import { jwtProvider } from "../services/jwt-provider.js";
+import { TokenService } from "../services/token-service.js";
 
 export const router = Router();
 

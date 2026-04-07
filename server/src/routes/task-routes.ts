@@ -1,9 +1,9 @@
-import Task from "@app/models/task-model";
-import { TaskService } from "@app/services/task-service";
 import { Router } from "express";
-import { TaskController } from "../controllers/task-controller";
-import { protect } from "@app/middleware/auth-middleware";
-import { TaskRepository } from "@app/repositories/task-repository";
+import { TaskController } from "../controllers/task-controller.js";
+import { protect } from "../middleware/auth-middleware.js";
+import Task from "../models/task-model.js";
+import { TaskRepository } from "../repositories/task-repository.js";
+import { TaskService } from "../services/task-service.js";
 
 const router = Router();
 

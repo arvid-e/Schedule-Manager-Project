@@ -1,6 +1,6 @@
-import { IJwtProvider } from "@app/interface/jwt-provider";
-import { ITokenRepository } from "@app/interface/token-repository";
-import { ITokenService } from "@app/interface/token-service";
+import { IJwtProvider } from "../interfaces/jwt-provider.js";
+import { ITokenRepository } from "../interfaces/token-repository.js";
+import { ITokenService } from "../interfaces/token-service.js";
 
 export class TokenService implements ITokenService {
   constructor(

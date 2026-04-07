@@ -1,4 +1,4 @@
-import type { ITaskDocument } from "@app/interface/task";
+import { ITaskDocument } from "../interfaces/task.js";
 import { Schema, model } from "mongoose";
 
 const taskSchema = new Schema<ITaskDocument>(

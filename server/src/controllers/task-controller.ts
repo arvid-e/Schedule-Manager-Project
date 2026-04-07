@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 
-import { ITask, IUpdateTask } from "@app/interface/task";
-import { ITaskService } from "@app/interface/task-service";
-import { catchAsync } from "../utils/catchAsync";
+import { ITaskService } from "../interfaces/task-service.js";
+import { ITask, IUpdateTask } from "../interfaces/task.js";
+import { catchAsync } from "../utils/catchAsync.js";
 
 export class TaskController {
   constructor(private taskService: ITaskService) {}

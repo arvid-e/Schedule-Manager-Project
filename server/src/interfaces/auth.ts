@@ -1,5 +1,5 @@
 import type { JwtPayload } from "jsonwebtoken";
-import type { IUser } from "./user";
+import type { IUser } from "./user.js";
 
 export interface ILoginData {
   username: string;
@@ -24,5 +24,3 @@ export interface IDecodedToken extends JwtPayload, IAuthPayload {
   iat: number; // Issued at (timestamp)
   exp: number; // Expiration (timestamp)
 }
-
-

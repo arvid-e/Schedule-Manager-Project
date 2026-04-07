@@ -1,9 +1,10 @@
-import type { ITask, ITaskDocument, IUpdateTask } from "@app/interface/task";
-import type { ITaskRepository } from "@app/interface/task-repository";
-import TaskModel from "@app/models/task-model";
+import { ITaskRepository } from "../interfaces/task-repository.js";
+import { ITask, ITaskDocument, IUpdateTask } from "../interfaces/task.js";
+import Task from "../models/task-model.js";
+
 
 export class TaskRepository implements ITaskRepository {
-  constructor(private tasksModel: typeof TaskModel) {}
+  constructor(private tasksModel: typeof Task) {}
 
   async findAll(): Promise<ITaskDocument[]> {
     return await this.tasksModel.find();

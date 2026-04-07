@@ -1,4 +1,4 @@
-import { ITokenDocument } from "@app/interface/token";
+import { ITokenDocument } from "../interfaces/token.js";
 import { Schema, model } from "mongoose";
 
 const tokenSchema = new Schema<ITokenDocument>(

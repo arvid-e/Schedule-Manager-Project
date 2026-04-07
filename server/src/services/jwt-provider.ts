@@ -1,5 +1,5 @@
-import { IAuthPayload, IDecodedToken } from "@app/interface/auth";
-import { IJwtProvider } from "@app/interface/jwt-provider";
+import { IAuthPayload, IDecodedToken } from "../interfaces/auth.js";
+import { IJwtProvider } from "../interfaces/jwt-provider.js";
 import jwt, { SignOptions } from "jsonwebtoken";
 
 export class JwtProvider implements IJwtProvider {

@@ -1,9 +1,10 @@
-import { AuthService } from "@app/services/auth-service";
-import { catchAsync } from "@app/utils/catchAsync";
+
 import { NextFunction, Request, Response } from "express";
+import { IAuthService } from "../interfaces/auth-service.js";
+import { catchAsync } from "../utils/catchAsync.js";
 
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: IAuthService) {}
 
   register = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {

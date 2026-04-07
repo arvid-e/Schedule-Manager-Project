@@ -1,6 +1,6 @@
-import { ITask, ITaskDocument, IUpdateTask } from "@app/interface/task";
-import { ITaskRepository } from "@app/interface/task-repository";
-import { ITaskService } from "@app/interface/task-service";
+import { ITaskRepository } from "../interfaces/task-repository.js";
+import { ITaskService } from "../interfaces/task-service.js";
+import { ITask, ITaskDocument, IUpdateTask } from "../interfaces/task.js";
 
 export class TaskService implements ITaskService {
   constructor(private taskRepository: ITaskRepository) {}

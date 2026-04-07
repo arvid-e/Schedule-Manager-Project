@@ -1,5 +1,6 @@
-import type { IRegisterUser, IUser, IUserDocument } from "@app/interface/user";
-import type { IUserRepository } from "@app/interface/user-repository";
+
+import { IUserRepository } from "../interfaces/user-repository.js";
+import { IRegisterUser, IUserDocument } from "../interfaces/user.js";
 import { Model } from "mongoose";
 
 export class UserRespository implements IUserRepository {

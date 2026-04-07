@@ -1,6 +1,7 @@
-import { ITokenDocument } from "@app/interface/token";
-import { ITokenRepository } from "@app/interface/token-repository";
-import Token from "@app/models/token-model";
+import { ITokenRepository } from "../interfaces/token-repository.js";
+import { ITokenDocument } from "../interfaces/token.js";
+import Token from "../models/token-model.js";
+
 
 export class TokenRepository implements ITokenRepository {
   constructor(private tokenModel: typeof Token) {}

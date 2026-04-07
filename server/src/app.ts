@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import router from './routes/router';
-import { globalErrorHandler } from './middleware/error-handler';
+import router from './routes/router.js';
+import { globalErrorHandler } from './middleware/error-handler.js';
 
 export const app = express();
 

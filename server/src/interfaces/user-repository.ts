@@ -1,4 +1,4 @@
-import type { IRegisterUser, IUserDocument } from "./user";
+import type { IRegisterUser, IUserDocument } from "./user.js";
 
 export interface IUserRepository {
   findById(id: string): Promise<IUserDocument | null>;

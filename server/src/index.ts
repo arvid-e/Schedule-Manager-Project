@@ -1,4 +1,4 @@
-import { gracefulShutdown, startServer } from "./server";
+import { gracefulShutdown, startServer } from "./server.js";
 
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);

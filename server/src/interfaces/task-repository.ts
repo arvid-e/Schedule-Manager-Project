@@ -1,4 +1,4 @@
-import type { ITask, ITaskDocument, IUpdateTask } from "./task";
+import type { ITask, ITaskDocument, IUpdateTask } from "./task.js";
 
 export interface ITaskRepository {
   findAll(): Promise<ITaskDocument[]>;

@@ -1,10 +1,10 @@
-import { BCRYPT_SALT_ROUNDS } from "@app/config/constants";
-import type { IAuthResponse } from "@app/interface/auth";
-import type { IAuthService } from "@app/interface/auth-service";
-import { ITokenService } from "@app/interface/token-service";
-import type { ILoginData, IRegisterUser } from "@app/interface/user";
-import { IUserRepository } from "@app/interface/user-repository";
 import bcrypt from "bcryptjs";
+import { BCRYPT_SALT_ROUNDS } from "../config/constants.js";
+import { IAuthService } from "../interfaces/auth-service.js";
+import { IAuthResponse } from "../interfaces/auth.js";
+import { ITokenService } from "../interfaces/token-service.js";
+import { IUserRepository } from "../interfaces/user-repository.js";
+import { ILoginData, IRegisterUser } from "../interfaces/user.js";
 
 export class AuthService implements IAuthService {
   constructor(

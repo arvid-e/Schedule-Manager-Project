@@ -1,6 +1,6 @@
-import type { UserRequestWithId } from "@app/interface/requests";
-import { jwtProvider } from "@app/services/jwt-provider";
 import { NextFunction, Response } from "express";
+import { UserRequestWithId } from "../interfaces/requests.js";
+import { jwtProvider } from "../services/jwt-provider.js";
 
 export const protect = (
   req: UserRequestWithId,

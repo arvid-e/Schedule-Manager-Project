@@ -1,11 +1,11 @@
-import { IAuthService } from "@app/interface/auth-service";
-import { ITokenService } from "@app/interface/token-service";
-import { IUserCredentials, IUserDocument } from "@app/interface/user";
-import { IUserRepository } from "@app/interface/user-repository";
 import bcrypt from "bcryptjs";
+import { IAuthService } from "../interfaces/auth-service.js";
+import { ITokenService } from "../interfaces/token-service.js";
+import { IUserRepository } from "../interfaces/user-repository.js";
+import { IUserCredentials, IUserDocument } from "../interfaces/user.js";
 import { Types } from "mongoose";
 import { describe, it } from "vitest";
-import { AuthService } from "./auth-service";
+import { AuthService } from "./auth-service.js";
 
 const TEST_USERNAME = "testuser";
 const TEST_PASSWORD = "testpassword123";

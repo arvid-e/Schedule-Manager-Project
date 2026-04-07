@@ -1,5 +1,5 @@
 import { SignOptions } from "jsonwebtoken";
-import { IAuthPayload, IDecodedToken } from "./auth";
+import { IAuthPayload, IDecodedToken } from "./auth.js";
 
 export interface IJwtProvider {
   sign(payload: IAuthPayload, options?: SignOptions): string;

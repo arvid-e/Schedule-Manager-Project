@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { app } from "./app";
-import { connectDB } from "./config/mongoose";
+import { app } from "./app.js";
+import { connectDB } from "./config/mongoose.js";
 
 dotenv.config();
 const port = 3000;
