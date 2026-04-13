@@ -5,6 +5,7 @@ export interface ITask {
     description?: string;
     date: Date,
     time: string;
+    completed: boolean;
 }
 
 export interface IUpdateTask {

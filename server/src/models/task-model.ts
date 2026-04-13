@@ -5,7 +5,7 @@ const taskSchema = new Schema<ITaskDocument>(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
+      required: true,
     },
     description: {
       type: String,
@@ -16,6 +16,9 @@ const taskSchema = new Schema<ITaskDocument>(
     time: {
       type: String,
     },
+    completed: {
+      type: Boolean,
+    }
   },
   {
     timestamps: true,
