@@ -6,7 +6,7 @@
   "type":"module",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/index.js",
     "dev": "nodemon --watch src --exec \"npm run build && npm run start\"",
     "test": "vitest",
     "test:watch": "vitest --watch",
