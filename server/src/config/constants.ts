@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import type { StringValue } from 'ms';
 
 if (!process.env.JWT_SECRET) {

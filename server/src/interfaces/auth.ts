@@ -1,5 +1,5 @@
 import type { JwtPayload } from "jsonwebtoken";
-import type { IUser } from "./user.js";
+import type { IUserDocument } from "./user.js";
 
 export interface ILoginData {
   username: string;
@@ -7,7 +7,7 @@ export interface ILoginData {
 }
 
 export interface IAuthResponse {
-  user: IUser;
+  user: IUserDocument;
   tokens: ITokenResponse;
 }
 

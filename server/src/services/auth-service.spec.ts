@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
-import { IAuthService } from "../interfaces/auth-service.js";
-import { ITokenService } from "../interfaces/token-service.js";
-import { IUserRepository } from "../interfaces/user-repository.js";
-import { IUserCredentials, IUserDocument } from "../interfaces/user.js";
 import { Types } from "mongoose";
 import { describe, it } from "vitest";
-import { AuthService } from "./auth-service.js";
+import { ITokenService } from "../interfaces/token-service.js";
+import { IUserRepository } from "../interfaces/user-repository.js";
+import { IUserService } from "../interfaces/user-service.js";
+import { IUserCredentials, IUserDocument } from "../interfaces/user.js";
+import { UserService } from "./user-service.js";
 
 const TEST_USERNAME = "testuser";
 const TEST_PASSWORD = "testpassword123";
@@ -19,10 +19,10 @@ vi.mock("bcryptjs", () => ({
   },
 }));
 
-describe("authService", () => {
+describe("userService", () => {
   let mockUserRepo: IUserRepository;
   let mockTokenService: ITokenService;
-  let authService: IAuthService;
+  let userService: IUserService;
 
   const createMockUser = (username: string, password: string) =>
     ({
@@ -52,7 +52,7 @@ describe("authService", () => {
       generateAccessPair: vi.fn(),
     } as unknown as ITokenService;
 
-    authService = new AuthService(mockUserRepo, mockTokenService);
+    userService = new UserService(mockUserRepo, mockTokenService);
   });
 
   describe("login()", () => {
@@ -66,7 +66,7 @@ describe("authService", () => {
       );
       vi.mocked(bcrypt.compare).mockResolvedValue(true as never);
 
-      const result = await authService.login(credentials);
+      const result = await userService.login(credentials);
 
       expect(result.tokens.accessToken).toBe(ACCESS_TOKEN);
       expect(result.tokens.refreshToken).toBe(REFRESH_TOKEN);
@@ -76,7 +76,7 @@ describe("authService", () => {
     it("should throw error on invalid credentials", async () => {
       vi.mocked(bcrypt.compare).mockResolvedValue(false as never);
 
-      await expect(authService.login(credentials)).rejects.toThrow(
+      await expect(userService.login(credentials)).rejects.toThrow(
         "Invalid username or password.",
       );
     });
@@ -84,7 +84,7 @@ describe("authService", () => {
     it("should throw error on when user not found", async () => {
       vi.mocked(mockUserRepo.findByUsername).mockResolvedValue(null);
 
-      await expect(authService.login(credentials)).rejects.toThrow(
+      await expect(userService.login(credentials)).rejects.toThrow(
         "Invalid username or password.",
       );
     });
@@ -100,7 +100,7 @@ describe("authService", () => {
         mockTokenResponse,
       );
 
-      const result = await authService.register(credentials);
+      const result = await userService.register(credentials);
 
       expect(result.tokens.accessToken).toBe(ACCESS_TOKEN);
       expect(result.tokens.refreshToken).toBe(REFRESH_TOKEN);
@@ -113,7 +113,7 @@ describe("authService", () => {
         password: TEST_PASSWORD,
       };
 
-      await expect(authService.register(invalidCredentials)).rejects.toThrow(
+      await expect(userService.register(invalidCredentials)).rejects.toThrow(
         "Username is too short.",
       );
     });
@@ -124,7 +124,7 @@ describe("authService", () => {
         password: "123",
       };
 
-      await expect(authService.register(invalidCredentials)).rejects.toThrow(
+      await expect(userService.register(invalidCredentials)).rejects.toThrow(
         "Password is too short",
       );
     });
@@ -133,7 +133,7 @@ describe("authService", () => {
       const mockUser = createMockUser(TEST_USERNAME, TEST_PASSWORD);
       vi.mocked(mockUserRepo.findByUsername).mockResolvedValue(mockUser);
 
-      await expect(authService.register(credentials)).rejects.toThrow(
+      await expect(userService.register(credentials)).rejects.toThrow(
         "Username is taken.",
       );
     });

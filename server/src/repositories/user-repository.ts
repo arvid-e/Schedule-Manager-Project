@@ -19,4 +19,9 @@ export class UserRespository implements IUserRepository {
   async create(userData: IRegisterUser): Promise<IUserDocument> {
     return await this.userModel.create(userData);
   }
+
+  async delete(id: string): Promise<boolean> {
+    const deleted = await this.userModel.deleteOne({ _id: id });
+    return deleted.deletedCount > 0;
+  }
 }

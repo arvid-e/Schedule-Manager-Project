@@ -1,12 +1,12 @@
 import bcrypt from "bcryptjs";
 import { BCRYPT_SALT_ROUNDS } from "../config/constants.js";
-import { IAuthService } from "../interfaces/auth-service.js";
 import { IAuthResponse } from "../interfaces/auth.js";
 import { ITokenService } from "../interfaces/token-service.js";
 import { IUserRepository } from "../interfaces/user-repository.js";
+import { IUserService } from "../interfaces/user-service.js";
 import { ILoginData, IRegisterUser } from "../interfaces/user.js";
 
-export class AuthService implements IAuthService {
+export class UserService implements IUserService {
   constructor(
     private userRepository: IUserRepository,
     private tokenService: ITokenService,
@@ -81,5 +81,9 @@ export class AuthService implements IAuthService {
       user,
       tokens,
     };
+  }
+
+  delete(id: string): Promise<boolean> {
+    return this.userRepository.delete(id);
   }
 }

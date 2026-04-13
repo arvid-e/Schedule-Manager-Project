@@ -1,9 +1,7 @@
-import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { app } from "./app.js";
 import { connectDB } from "./config/mongoose.js";
 
-dotenv.config();
 const port = 3000;
 let server: any;
 
@@ -12,7 +10,7 @@ export const startServer = async () => {
     await connectDB();
     server = app.listen(port, () => {
       console.log(`Server running at http://localhost:${port}`);
-      console.log(`Access API at http://localhost:${port}/api`);
+      console.log(`Access API at http://localhost:${port}/api/v1`);
     });
   } catch (error) {
     console.log("Failed to start server: " + error);

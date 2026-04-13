@@ -18,9 +18,6 @@ const userService = new UserService(userRepo, tokenService);
 
 const controller = new UserController(userService);
 
-router.post("/register", controller.register);
-router.post("/login", controller.login);
-
-// router.post('/refresh-token', refreshAuthToken);
+router.delete("/:id", controller.delete);
 
 export default router;
