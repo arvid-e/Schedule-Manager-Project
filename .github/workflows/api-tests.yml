@@ -1,0 +1,44 @@
+name: API Integration Tests
+
+on:
+  push:
+    branches:
+      - '**'  
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build and Start Server
+        run: |
+          npm run build
+          # Run the server in the background so the test step can run
+          npm run start & 
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          PORT: 3000
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Postman Collection
+        run: |
+          newman run ./tests/collection.json \
+          -e ./tests/environment.json \
+          --env-var "jwt_secret=${{ secrets.JWT_SECRET }}" \
+          --env-var "baseUrl=http://localhost:3000"

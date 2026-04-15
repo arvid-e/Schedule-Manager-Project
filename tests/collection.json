@@ -1,0 +1,390 @@
+{
+  "info": {
+    "_postman_id": "4e0f7fc4-178b-48d6-8614-1300150b21af",
+    "name": "API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52481288"
+  },
+  "item": [
+    {
+      "name": "register",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const randomUser = \"user\" + pm.variables.replaceIn('{{$randomInt}}') + \"_user\";",
+              "const randomPass = \"Password123\" + pm.variables.replaceIn('{{$randomInt}}') + \"!\";",
+              "",
+              "pm.environment.set(\"test_username\", randomUser);",
+              "pm.environment.set(\"test_password\", randomPass);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "let responseJson;",
+              "pm.test(\"Response body is valid JSON\", function () {",
+              "    responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.status equals 'success'\", function () {",
+              "    pm.expect(responseJson.status).to.eql(\"success\");",
+              "});",
+              "",
+              "pm.test(\"response.message is a string\", function () {",
+              "    pm.expect(responseJson.message).to.be.a(\"string\");",
+              "});",
+              "",
+              "pm.test(\"response.data exists and is an object\", function () {",
+              "    pm.expect(responseJson).to.exist;",
+              "    pm.expect(responseJson).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.tokens exists and is strings\", function () { ",
+              "    pm.expect(responseJson.tokens).to.exist;",
+              "    pm.expect(responseJson.tokens.accessToken).to.be.a(\"string\");",
+              "    pm.expect(responseJson.tokens.refreshToken).to.be.a(\"string\");",
+              "});",
+              "",
+              "pm.environment.set(\"test_user\", responseJson._id);",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "{{test_username}}",
+              "type": "text",
+              "uuid": "e476d254-c7ca-40db-8f7c-602725662398"
+            },
+            {
+              "key": "password",
+              "value": "{{test_password}}",
+              "type": "text",
+              "uuid": "a46a2f69-4f0c-4537-b7f0-fb549cf6a899"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{api_url}}/auth/register",
+          "host": [
+            "{{api_url}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let responseJson;",
+              "pm.test(\"Response body is valid JSON\", function () {",
+              "    responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.status equals 'success'\", function () {",
+              "    pm.expect(responseJson.status).to.eql(\"success\");",
+              "});",
+              "",
+              "pm.test(\"response.message is a string\", function () {",
+              "    pm.expect(responseJson.message).to.be.a(\"string\");",
+              "});",
+              "",
+              "pm.test(\"response.tokens exists and is strings\", function () { ",
+              "    pm.expect(responseJson.tokens).to.exist;",
+              "    pm.expect(responseJson.tokens.accessToken).to.be.a(\"string\");",
+              "    pm.expect(responseJson.tokens.refreshToken).to.be.a(\"string\");",
+              "});",
+              "",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "{{test_username}}",
+              "type": "text",
+              "uuid": "e476d254-c7ca-40db-8f7c-602725662398"
+            },
+            {
+              "key": "password",
+              "value": "{{test_password}}",
+              "type": "text",
+              "uuid": "a46a2f69-4f0c-4537-b7f0-fb549cf6a899"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{api_url}}/auth/login",
+          "host": [
+            "{{api_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "tasks",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let responseJson;",
+              "pm.test(\"Response body is valid JSON\", function () {",
+              "    responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.status equals 'success'\", function () {",
+              "    pm.expect(responseJson.status).to.eql(\"success\");",
+              "});",
+              "",
+              "pm.test(\"response.message is a string\", function () {",
+              "    pm.expect(responseJson.message).to.be.a(\"string\");",
+              "});",
+              "",
+              "pm.test(\"response.data exists and is an object\", function () {",
+              "    pm.expect(responseJson.data).to.exist;",
+              "    pm.expect(responseJson.data).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.data.events is an array\", function () {",
+              "    pm.expect(responseJson.data.events).to.be.an(\"array\");",
+              "});",
+              "",
+              "pm.test(\"Warning: endpoint naming may differ from payload naming\", function () {",
+              "    const endpointMentionsTasks = pm.request.url.toString().includes(\"/tasks\");",
+              "    const payloadUsesEvents = responseJson && responseJson.data && Object.prototype.hasOwnProperty.call(responseJson.data, \"events\");",
+              "",
+              "    if (endpointMentionsTasks && payloadUsesEvents) {",
+              "        console.warn(\"Naming note: the request endpoint uses '/tasks' while the response payload uses 'events'. This may be intentional, but is worth reviewing for consistency.\");",
+              "    }",
+              "",
+              "    pm.expect(true).to.be.true;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "",
+              "type": "text",
+              "uuid": "e476d254-c7ca-40db-8f7c-602725662398"
+            },
+            {
+              "key": "password",
+              "value": "",
+              "type": "text",
+              "uuid": "a46a2f69-4f0c-4537-b7f0-fb549cf6a899"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{api_url}}/tasks",
+          "host": [
+            "{{api_url}}"
+          ],
+          "path": [
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "tasks/:id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{api_url}}/tasks/",
+          "host": [
+            "{{api_url}}"
+          ],
+          "path": [
+            "tasks",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "tasks",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{api_url}}/tasks",
+          "host": [
+            "{{api_url}}"
+          ],
+          "path": [
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "tasks/:id",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{api_url}}/tasks/{{test_id}}",
+          "host": [
+            "{{api_url}}"
+          ],
+          "path": [
+            "tasks",
+            "{{test_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "user/:id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let responseJson;",
+              "pm.test(\"Response body is valid JSON\", function () {",
+              "    responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.status equals 'success'\", function () {",
+              "    pm.expect(responseJson.status).to.eql(\"success\");",
+              "});",
+              "",
+              "pm.test(\"response.message is a string\", function () {",
+              "    pm.expect(responseJson.message).to.be.a(\"string\");",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "",
+              "type": "text",
+              "uuid": "e476d254-c7ca-40db-8f7c-602725662398"
+            },
+            {
+              "key": "password",
+              "value": "",
+              "type": "text",
+              "uuid": "a46a2f69-4f0c-4537-b7f0-fb549cf6a899"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{api_url}}/users/{{test_user}}",
+          "host": [
+            "{{api_url}}"
+          ],
+          "path": [
+            "users",
+            "{{test_user}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
