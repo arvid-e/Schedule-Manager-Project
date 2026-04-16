@@ -9,10 +9,12 @@ services:
       - mongodb
     environment:
       - PORT=3000
-      - MONGO_URI=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017/testdb?authSource=admin
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
       - BCRYPT_SALT_ROUNDS=${BCRYPT_SALT_ROUNDS}
+      - MONGO_URI=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017/testdb?authSource=admin
 
   mongodb:
     image: mongo:latest
