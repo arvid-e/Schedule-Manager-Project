@@ -225,10 +225,23 @@
               "});",
               "",
               "pm.environment.set(\"task_id\", responseJson.data.task._id);",
-              "pm.environment.set(\"task_date\", new Date());",
+              "",
               "",
               "",
               ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.environment.set(\"task_date\", new Date());",
+              "pm.environment.set(\"task_title\", \"Test123\");",
+              "pm.environment.set(\"task_desc\", \"123\");"
             ],
             "type": "text/javascript",
             "packages": {},
