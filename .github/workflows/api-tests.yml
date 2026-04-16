@@ -30,6 +30,7 @@ jobs:
           npm run start &
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
           PORT: 3000
 
       - name: Install Newman
