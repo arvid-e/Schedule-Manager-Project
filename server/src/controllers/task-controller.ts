@@ -8,13 +8,13 @@ export class TaskController {
   constructor(private taskService: ITaskService) {}
 
   getAll = catchAsync(async (req: Request, res: Response) => {
-    const events = await this.taskService.getAllTasks();
+    const tasks = await this.taskService.getAllTasks();
 
     res.status(200).json({
       status: 'success',
       message: 'Events fetched successfully!',
       data: {
-        events,
+        tasks,
       },
     });
   });
