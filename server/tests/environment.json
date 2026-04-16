@@ -25,10 +25,40 @@
 			"value": "",
 			"type": "default",
 			"enabled": true
+		},
+		{
+			"key": "task_title",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "task_desc",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "task_date",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "task_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
 		}
 	],
 	"color": 240,
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2026-04-15T10:10:46.956Z",
-	"_postman_exported_using": "Postman/12.6.0"
+	"_postman_exported_at": "2026-04-16T15:08:31.992Z",
+	"_postman_exported_using": "Postman/12.6.3"
 }
