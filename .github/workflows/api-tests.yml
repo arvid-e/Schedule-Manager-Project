@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+      - '**'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: './server/package-lock.json'
+
+      - name: Install dependencies
+        working-directory: ./server
+        run: npm install
+
+      - name: Start Services
+        run: docker compose -f docker-compose.test.yml up -d
+        env:
+          MONGO_USER: ${{ secrets.MONGO_USER }}
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
+          BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS }}
+
+      - name: Install Newman
+        working-directory: ./server
+        run: npm install -g newman
+
+      - name: Run Postman Collection
+        working-directory: ./server
+        run: |
+          newman run ./tests/collection.json \
+          -e ./tests/environment.json \
+          --env-var "jwt_secret=${{ secrets.JWT_SECRET }}" \
+          --env-var "baseUrl=http://localhost:3000"
