@@ -7,7 +7,7 @@ import { catchAsync } from '../utils/catch-async.js';
 export class TaskController {
   constructor(private taskService: ITaskService) {}
 
-  getAllTasks = catchAsync(async (req: Request, res: Response) => {
+  getAll = catchAsync(async (req: Request, res: Response) => {
     const events = await this.taskService.getAllTasks();
 
     res.status(200).json({
@@ -19,12 +19,12 @@ export class TaskController {
     });
   });
 
-  getTaskById = catchAsync(async (req: Request, res: Response) => {
+  getById = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const task = await this.taskService.getTaskById(id);
 
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       message: 'Event fetched successfully!',
       data: {
@@ -33,7 +33,7 @@ export class TaskController {
     });
   });
 
-  public createTask = catchAsync(async (req: Request, res: Response) => {
+  create = catchAsync(async (req: Request, res: Response) => {
     const taskPayload: ITask = req.body;
 
     const task = await this.taskService.createTask(taskPayload);
@@ -47,7 +47,7 @@ export class TaskController {
     });
   });
 
-  public deleteTask = catchAsync(async (req: Request, res: Response) => {
+  delete = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const deleted = await this.taskService.deleteTaskById(id);
@@ -65,7 +65,7 @@ export class TaskController {
     });
   });
 
-  public updateTask = catchAsync(async (req: Request, res: Response) => {
+  update = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const updateFields: IUpdateTask = req.body;
 

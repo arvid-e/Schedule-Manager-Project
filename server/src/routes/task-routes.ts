@@ -12,10 +12,10 @@ const taskRepo = new TaskRepository(Task);
 const eventService = new TaskService(taskRepo);
 const controller = new TaskController(eventService);
 
-router.get("/", controller.getAllTasks);
-router.get("/:id", controller.getTaskById);
-router.post("/", protect, controller.createTask);
-router.patch("/:id", protect, controller.updateTask);
-router.delete("/:id", protect, controller.deleteTask);
+router.get("/", controller.getAll);
+router.get("/:id", controller.getById);
+router.post("/", protect, controller.create);
+router.patch("/:id", protect, controller.update);
+router.delete("/:id", protect, controller.delete);
 
 export default router;
