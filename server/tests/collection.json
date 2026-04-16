@@ -225,6 +225,7 @@
               "});",
               "",
               "pm.environment.set(\"task_id\", responseJson.data.task._id);",
+              "pm.environment.set(\"task_date\", new Date());",
               "",
               "",
               ""
