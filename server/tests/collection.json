@@ -58,6 +58,8 @@
               "});",
               "",
               "pm.environment.set(\"test_user\", responseJson._id);",
+              "pm.environment.set(\"test_username\", responseJson.username);",
+              "pm.environment.set(\"token\", responseJson.accessToken);",
               ""
             ],
             "type": "text/javascript",
@@ -130,6 +132,7 @@
               "    pm.expect(responseJson.tokens.refreshToken).to.be.a(\"string\");",
               "});",
               "",
+              "pm.environment.set(\"token\", responseJson.tokens.accessToken);",
               ""
             ],
             "type": "text/javascript",
@@ -189,6 +192,125 @@
           "listen": "test",
           "script": {
             "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "let responseJson;",
+              "pm.test(\"Response body is valid JSON\", function () {",
+              "    responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.status equals 'success'\", function () {",
+              "    pm.expect(responseJson.status).to.eql(\"success\");",
+              "});",
+              "",
+              "pm.test(\"response.message is a string\", function () {",
+              "    pm.expect(responseJson.message).to.be.a(\"string\");",
+              "});",
+              "",
+              "pm.test(\"response.data exists and is an object\", function () {",
+              "    pm.expect(responseJson.data).to.exist;",
+              "    pm.expect(responseJson.data).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.data.task exists and is an object\", function () {",
+              "    pm.expect(responseJson.data.task).to.exist;",
+              "    pm.expect(responseJson.data.task).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.data.task.title matches the request title\", function () {",
+              "    pm.expect(responseJson.data.task.title).to.equal(pm.environment.get(\"task_title\"));",
+              "});",
+              "",
+              "pm.environment.set(\"task_id\", responseJson.data.task._id);",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.environment.set(\"task_date\", new Date());",
+              "pm.environment.set(\"task_title\", \"Test123\");",
+              "pm.environment.set(\"task_desc\", \"123\");"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "title",
+              "value": "{{task_title}}",
+              "type": "text",
+              "uuid": "f02670e3-ed35-4506-b589-e2c95e33cb5c"
+            },
+            {
+              "key": "description",
+              "value": "{{task_desc}}",
+              "type": "text",
+              "uuid": "1e1e2ea3-fa1d-47af-b33d-a419f099f32d"
+            },
+            {
+              "key": "date",
+              "value": "{{task_date}}",
+              "type": "text",
+              "uuid": "e2882fb6-c7e8-4bdf-be40-b29a3dceb230"
+            },
+            {
+              "key": "",
+              "value": "",
+              "type": "text",
+              "uuid": "987150e5-1aba-450a-bd2b-9f5799286e75",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{api_url}}/tasks",
+          "host": [
+            "{{api_url}}"
+          ],
+          "path": [
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "tasks",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
               "pm.test(\"Status code is 200\", function () {",
               "    pm.response.to.have.status(200);",
               "});",
@@ -212,20 +334,10 @@
               "    pm.expect(responseJson.data).to.be.an(\"object\");",
               "});",
               "",
-              "pm.test(\"response.data.events is an array\", function () {",
-              "    pm.expect(responseJson.data.events).to.be.an(\"array\");",
+              "pm.test(\"response.data.tasks is an array\", function () {",
+              "    pm.expect(responseJson.data.tasks).to.be.an(\"array\");",
               "});",
-              "",
-              "pm.test(\"Warning: endpoint naming may differ from payload naming\", function () {",
-              "    const endpointMentionsTasks = pm.request.url.toString().includes(\"/tasks\");",
-              "    const payloadUsesEvents = responseJson && responseJson.data && Object.prototype.hasOwnProperty.call(responseJson.data, \"events\");",
-              "",
-              "    if (endpointMentionsTasks && payloadUsesEvents) {",
-              "        console.warn(\"Naming note: the request endpoint uses '/tasks' while the response payload uses 'events'. This may be intentional, but is worth reviewing for consistency.\");",
-              "    }",
-              "",
-              "    pm.expect(true).to.be.true;",
-              "});"
+              ""
             ],
             "type": "text/javascript",
             "packages": {},
@@ -270,34 +382,59 @@
     },
     {
       "name": "tasks/:id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let responseJson;",
+              "pm.test(\"Response body is valid JSON\", function () {",
+              "    responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.status equals 'success'\", function () {",
+              "    pm.expect(responseJson.status).to.eql(\"success\");",
+              "});",
+              "",
+              "pm.test(\"response.message is a string\", function () {",
+              "    pm.expect(responseJson.message).to.be.a(\"string\");",
+              "});",
+              "",
+              "pm.test(\"response.data exists and is an object\", function () {",
+              "    pm.expect(responseJson.data).to.exist;",
+              "    pm.expect(responseJson.data).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.data.title exists\", function () {",
+              "    pm.expect(responseJson.data.task.title).to.exist;",
+              "    pm.expect(responseJson.data.task.title).to.be.a(\"string\");",
+              "});",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{api_url}}/tasks/",
+          "raw": "{{api_url}}/tasks/{{task_id}}",
           "host": [
             "{{api_url}}"
           ],
           "path": [
             "tasks",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "tasks",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "url": {
-          "raw": "{{api_url}}/tasks",
-          "host": [
-            "{{api_url}}"
-          ],
-          "path": [
-            "tasks"
+            "{{task_id}}"
           ]
         }
       },
@@ -305,17 +442,88 @@
     },
     {
       "name": "tasks/:id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let responseJson;",
+              "pm.test(\"Response body is valid JSON\", function () {",
+              "    responseJson = pm.response.json();",
+              "    pm.expect(responseJson).to.be.an(\"object\");",
+              "});",
+              "",
+              "pm.test(\"response.status equals 'success'\", function () {",
+              "    pm.expect(responseJson.status).to.eql(\"success\");",
+              "});",
+              "",
+              "pm.test(\"response.message is a string and includes 'Task deleted successfully!'\", function () {",
+              "    pm.expect(responseJson.message).to.be.a(\"string\");",
+              "    pm.expect(responseJson.message).to.include(\"Task deleted successfully!\");",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "DELETE",
         "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "title",
+              "value": "{{task_title}}",
+              "type": "text",
+              "uuid": "f02670e3-ed35-4506-b589-e2c95e33cb5c"
+            },
+            {
+              "key": "description",
+              "value": "{{task_desc}}",
+              "type": "text",
+              "uuid": "1e1e2ea3-fa1d-47af-b33d-a419f099f32d"
+            },
+            {
+              "key": "date",
+              "value": "{{task_date}}",
+              "type": "text",
+              "uuid": "e2882fb6-c7e8-4bdf-be40-b29a3dceb230"
+            },
+            {
+              "key": "",
+              "value": "",
+              "type": "text",
+              "uuid": "987150e5-1aba-450a-bd2b-9f5799286e75",
+              "disabled": true
+            }
+          ]
+        },
         "url": {
-          "raw": "{{api_url}}/tasks/{{test_id}}",
+          "raw": "{{api_url}}/tasks/{{task_id}}",
           "host": [
             "{{api_url}}"
           ],
           "path": [
             "tasks",
-            "{{test_id}}"
+            "{{task_id}}"
           ]
         }
       },
@@ -342,8 +550,9 @@
               "    pm.expect(responseJson.status).to.eql(\"success\");",
               "});",
               "",
-              "pm.test(\"response.message is a string\", function () {",
+              "pm.test(\"response.message is a string and includes 'User deleted successfully' message\", function () {",
               "    pm.expect(responseJson.message).to.be.a(\"string\");",
+              "    pm.expect(responseJson.message).to.include(\"User deleted successfully\");",
               "});",
               ""
             ],
@@ -354,6 +563,16 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "DELETE",
         "header": [],
         "body": {

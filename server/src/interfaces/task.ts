@@ -3,9 +3,7 @@ import { Document, Types } from "mongoose";
 export interface ITask {
     title: string;
     description?: string;
-    date: Date,
-    time: string;
-    completed: boolean;
+    date?: Date,
 }
 
 export interface IUpdateTask {
@@ -13,7 +11,6 @@ export interface IUpdateTask {
     title?: string;
     description?: string;
     date?: Date;
-    time?: string;
 }
 
 export interface ITaskDocument extends ITask, Document {}

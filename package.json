@@ -1,0 +1,21 @@
+{
+  "name": "schedule-manager-project",
+  "version": "1.0.0",
+  "description": "",
+  "devDependencies": {},
+  "scripts": {
+    "dev:server": "cd server && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arvid-e/Schedule-Manager-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/arvid-e/Schedule-Manager-Project/issues"
+  },
+  "homepage": "https://github.com/arvid-e/Schedule-Manager-Project#readme"
+}

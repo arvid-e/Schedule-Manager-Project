@@ -7,6 +7,7 @@ import { UserRespository } from "../repositories/user-repository.js";
 import { jwtProvider } from "../services/jwt-provider.js";
 import { TokenService } from "../services/token-service.js";
 import { UserService } from "../services/user-service.js";
+import { protect } from "../middleware/auth-middleware.js";
 
 export const router = Router();
 
@@ -18,6 +19,6 @@ const userService = new UserService(userRepo, tokenService);
 
 const controller = new UserController(userService);
 
-router.delete("/:id", controller.delete);
+router.delete("/:id", protect, controller.delete);
 
 export default router;

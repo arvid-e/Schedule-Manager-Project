@@ -1,96 +1,86 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import { ITaskService } from "../interfaces/task-service.js";
-import { ITask, IUpdateTask } from "../interfaces/task.js";
-import { catchAsync } from "../utils/catchAsync.js";
+import { ITaskService } from '../interfaces/task-service.js';
+import { ITask, IUpdateTask } from '../interfaces/task.js';
+import { catchAsync } from '../utils/catch-async.js';
 
 export class TaskController {
   constructor(private taskService: ITaskService) {}
 
-  getAllTasks = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const events = await this.taskService.getAllTasks();
+  getAll = catchAsync(async (req: Request, res: Response) => {
+    const tasks = await this.taskService.getAllTasks();
 
-      res.status(200).json({
-        status: "success",
-        message: "Events fetched successfully!",
-        data: {
-          events,
-        },
-      });
-    },
-  );
+    res.status(200).json({
+      status: 'success',
+      message: 'Events fetched successfully!',
+      data: {
+        tasks,
+      },
+    });
+  });
 
-  getTaskById = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
+  getById = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
 
-      const task = await this.taskService.getTaskById(id);
+    const task = await this.taskService.getTaskById(id);
 
-      res.status(201).json({
-        status: "success",
-        message: "Event fetched successfully!",
-        data: {
-          task,
-        },
-      });
-    },
-  );
+    res.status(200).json({
+      status: 'success',
+      message: 'Event fetched successfully!',
+      data: {
+        task,
+      },
+    });
+  });
 
-  public createTask = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const taskPayload: ITask = req.body;
+  create = catchAsync(async (req: Request, res: Response) => {
+    const taskPayload: ITask = req.body;
 
-      const task = await this.taskService.createTask(taskPayload);
+    const task = await this.taskService.createTask(taskPayload);
 
-      res.status(201).json({
-        status: "success",
-        message: "Event created successfully!",
-        data: {
-          task,
-        },
-      });
-    },
-  );
+    res.status(201).json({
+      status: 'success',
+      message: 'Event created successfully!',
+      data: {
+        task,
+      },
+    });
+  });
 
-  public deleteTask = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
+  delete = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
 
-      const deleted = await this.taskService.deleteTaskById(id);
+    const deleted = await this.taskService.deleteTaskById(id);
 
-      if (!deleted) {
-        throw new Error("Could not delete task.");
-      }
+    if (!deleted) {
+      throw new Error('Could not delete task.');
+    }
 
-      res.status(200).json({
-        status: "success",
-        message: "Task deleted successfully!",
-        data: {
-          id,
-        },
-      });
-    },
-  );
+    res.status(200).json({
+      status: 'success',
+      message: 'Task deleted successfully!',
+      data: {
+        id,
+      },
+    });
+  });
 
-  public updateTask = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
-      const updateFields: IUpdateTask = req.body;
+  update = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const updateFields: IUpdateTask = req.body;
 
-      const updated = await this.taskService.updateTask(updateFields);
+    const updated = await this.taskService.updateTask(updateFields);
 
-      if (!updated) {
-        throw new Error("Could not update task.");
-      }
+    if (!updated) {
+      throw new Error('Could not update task.');
+    }
 
-      res.status(200).json({
-        status: "success",
-        message: "Event edited successfully!",
-        data: {
-          id,
-        },
-      });
-    },
-  );
+    res.status(200).json({
+      status: 'success',
+      message: 'Event edited successfully!',
+      data: {
+        id,
+      },
+    });
+  });
 }

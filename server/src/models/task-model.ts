@@ -13,12 +13,6 @@ const taskSchema = new Schema<ITaskDocument>(
     date: {
       type: Date,
     },
-    time: {
-      type: String,
-    },
-    completed: {
-      type: Boolean,
-    }
   },
   {
     timestamps: true,
