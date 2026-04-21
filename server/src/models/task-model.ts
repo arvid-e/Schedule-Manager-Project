@@ -1,5 +1,5 @@
-import { ITaskDocument } from "../interfaces/task.js";
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
+import { ITaskDocument } from '../interfaces/task.js';
 
 const taskSchema = new Schema<ITaskDocument>(
   {
@@ -10,7 +10,10 @@ const taskSchema = new Schema<ITaskDocument>(
     description: {
       type: String,
     },
-    date: {
+    startDate: {
+      type: Date,
+    },
+    endDate: {
       type: Date,
     },
   },
@@ -19,5 +22,5 @@ const taskSchema = new Schema<ITaskDocument>(
   },
 );
 
-const Task = model<ITaskDocument>("Task", taskSchema);
+const Task = model<ITaskDocument>('Task', taskSchema);
 export default Task;
