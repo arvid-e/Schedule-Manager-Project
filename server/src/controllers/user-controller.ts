@@ -2,50 +2,45 @@ import { NextFunction, Request, Response } from 'express';
 import { isValidObjectId } from 'mongoose';
 import { UserRequestWithId } from '../interfaces/requests.js';
 import { UserService } from '../interfaces/user-service.js';
-import { catchAsync } from '../utils/catch-async.js';
 
 export class UserController {
   constructor(private userService: UserService) {}
 
-  register = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { username, password } = req.body;
+  register = async (req: Request, res: Response, next: NextFunction) => {
+    const { username, password } = req.body;
 
-      const { user, tokens } = await this.userService.register({
-        username,
-        password,
-      });
+    const { user, tokens } = await this.userService.register({
+      username,
+      password,
+    });
 
-      res.status(201).json({
-        status: 'success',
-        message: 'User registered successfully!',
-        _id: user._id,
-        username,
-        tokens,
-      });
-    },
-  );
+    res.status(201).json({
+      status: 'success',
+      message: 'User registered successfully!',
+      _id: user._id,
+      username,
+      tokens,
+    });
+  };
 
-  login = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { username, password } = req.body;
+  login = async (req: Request, res: Response, next: NextFunction) => {
+    const { username, password } = req.body;
 
-      const { user, tokens } = await this.userService.login({
-        username,
-        password,
-      });
+    const { user, tokens } = await this.userService.login({
+      username,
+      password,
+    });
 
-      res.status(200).json({
-        status: 'success',
-        message: 'Logged in successfully!',
-        _id: user._id,
-        username,
-        tokens,
-      });
-    },
-  );
+    res.status(200).json({
+      status: 'success',
+      message: 'Logged in successfully!',
+      _id: user._id,
+      username,
+      tokens,
+    });
+  };
 
-  delete = catchAsync(async (req: UserRequestWithId, res: Response) => {
+  delete = async (req: UserRequestWithId, res: Response) => {
     const { id } = req.params;
     const idString = id.toString();
 
@@ -67,5 +62,5 @@ export class UserController {
       status: 'success',
       message: 'User deleted successfully!',
     });
-  });
+  };
 }

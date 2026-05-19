@@ -2,12 +2,11 @@ import { Request, Response } from 'express';
 
 import { TaskService } from '../interfaces/task-service.js';
 import { Task, UpdateTask } from '../interfaces/task.js';
-import { catchAsync } from '../utils/catch-async.js';
 
 export class TaskController {
   constructor(private taskService: TaskService) {}
 
-  getAll = catchAsync(async (req: Request, res: Response) => {
+  getAll = async (req: Request, res: Response) => {
     const tasks = await this.taskService.getAllTasks();
 
     res.status(200).json({
@@ -17,9 +16,9 @@ export class TaskController {
         tasks,
       },
     });
-  });
+  };
 
-  getById = catchAsync(async (req: Request, res: Response) => {
+  getById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const task = await this.taskService.getTaskById(id);
@@ -31,9 +30,9 @@ export class TaskController {
         task,
       },
     });
-  });
+  };
 
-  create = catchAsync(async (req: Request, res: Response) => {
+  create = async (req: Request, res: Response) => {
     const taskPayload: Task = req.body;
 
     const task = await this.taskService.createTask(taskPayload);
@@ -45,9 +44,9 @@ export class TaskController {
         task,
       },
     });
-  });
+  };
 
-  delete = catchAsync(async (req: Request, res: Response) => {
+  delete = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const deleted = await this.taskService.deleteTaskById(id);
@@ -63,9 +62,9 @@ export class TaskController {
         id,
       },
     });
-  });
+  };
 
-  update = catchAsync(async (req: Request, res: Response) => {
+  update = async (req: Request, res: Response) => {
     const { id } = req.params;
     const updateFields: UpdateTask = req.body;
 
@@ -82,5 +81,5 @@ export class TaskController {
         id,
       },
     });
-  });
+  };
 }
