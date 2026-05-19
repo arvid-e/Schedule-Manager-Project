@@ -1,8 +1,8 @@
-import type { IRegisterUser, IUserDocument } from "./user.js";
+import type { RegisterUser, UserDocument } from "./user.js";
 
-export interface IUserRepository {
-  findById(id: string): Promise<IUserDocument | null>;
-  findByUsername(username: string): Promise<IUserDocument | null>;
-  create(userData: IRegisterUser): Promise<IUserDocument>;
+export interface UserRepository {
+  findById(id: string): Promise<UserDocument | null>;
+  findByUsername(username: string): Promise<UserDocument | null>;
+  create(userData: RegisterUser): Promise<UserDocument>;
   delete(id: string): Promise<boolean>;
 }

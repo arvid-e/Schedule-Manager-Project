@@ -1,8 +1,8 @@
-import { ITokenDocument } from "./token.js";
+import { TokenDocument } from "./token.js";
 
-export interface ITokenRepository {
+export interface TokenRepository {
   saveRefreshToken(
     userId: string,
     refreshToken: string,
-  ): Promise<ITokenDocument>;
+  ): Promise<TokenDocument>;
 }

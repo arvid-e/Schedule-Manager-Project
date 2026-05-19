@@ -1,7 +1,7 @@
-import { IUserDocument } from "../interfaces/user.js";
+import { UserDocument } from "../interfaces/user.js";
 import { Schema, model } from "mongoose";
 
-const userSchema = new Schema<IUserDocument>(
+const userSchema = new Schema<UserDocument>(
   {
     username: {
       type: String,
@@ -21,5 +21,5 @@ const userSchema = new Schema<IUserDocument>(
   },
 );
 
-const User = model<IUserDocument>("User", userSchema);
+const User = model<UserDocument>("User", userSchema);
 export default User;

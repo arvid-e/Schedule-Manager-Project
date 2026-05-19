@@ -1,5 +1,5 @@
-import type { ITokenResponse } from "./auth.js";
+import type { TokenResponse } from "./auth.js";
 
-export interface ITokenService {
-  generateAccessPair(userId: string): Promise<ITokenResponse>;
+export interface TokenService {
+  generateAccessPair(userId: string): Promise<TokenResponse>;
 }

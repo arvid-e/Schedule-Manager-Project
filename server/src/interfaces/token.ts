@@ -1,8 +1,8 @@
 import { Document } from "mongoose";
 
-export interface IToken {
+export interface Token {
   userId: string;
   refreshToken: string;
 }
 
-export interface ITokenDocument extends IToken, Document {}
+export interface TokenDocument extends Token, Document {}

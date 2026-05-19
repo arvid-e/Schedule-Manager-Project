@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { ITaskDocument } from '../interfaces/task.js';
+import { TaskDocument } from '../interfaces/task.js';
 
-const taskSchema = new Schema<ITaskDocument>(
+const taskSchema = new Schema<TaskDocument>(
   {
     title: {
       type: String,
@@ -10,10 +10,7 @@ const taskSchema = new Schema<ITaskDocument>(
     description: {
       type: String,
     },
-    startDate: {
-      type: Date,
-    },
-    endDate: {
+    date: {
       type: Date,
     },
   },
@@ -22,5 +19,5 @@ const taskSchema = new Schema<ITaskDocument>(
   },
 );
 
-const Task = model<ITaskDocument>('Task', taskSchema);
+const Task = model<TaskDocument>('Task', taskSchema);
 export default Task;

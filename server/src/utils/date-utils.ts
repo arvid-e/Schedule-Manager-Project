@@ -1,4 +1,5 @@
-import { Week, WeekDay } from '../interfaces/task.js';
+import { Week, WeekDay } from "../interfaces/week.js";
+
 
 /**
  * Gets the weekdays of the first week of the year that belongs to specified year.
@@ -72,7 +73,7 @@ export function fillMissingDaysInWeek(incompleteWeek: Date[]): Date[] {
  * 
  * @returns - One year of week objects.
  */
-export function createWeeks() {
+export function createFullYearOfWeeks() {
   const sparseFirstWeek = getFirstWeekOfTheYear();
   const fullFirstWeek = fillMissingDaysInWeek(sparseFirstWeek);
 

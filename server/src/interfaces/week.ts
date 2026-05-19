@@ -1,4 +1,4 @@
-import { ITask } from "./task.js";
+import { Task } from "./task.js";
 
 export interface Week {
   weekNumber: number;
@@ -7,5 +7,5 @@ export interface Week {
 
 export interface WeekDay {
   date: Date;
-  tasks: ITask[];
+  tasks: Task[];
 }

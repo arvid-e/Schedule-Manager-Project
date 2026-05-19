@@ -1,16 +1,15 @@
-import { ITaskRepository } from "../interfaces/task-repository.js";
-import { ITask, ITaskDocument, IUpdateTask } from "../interfaces/task.js";
-import Task from "../models/task-model.js";
+import { TaskRepository } from '../interfaces/task-repository.js';
+import { Task, TaskDocument, UpdateTask } from '../interfaces/task.js';
+import TaskModel from '../models/task-model.js';
 
+export class TaskRepositoryImpl implements TaskRepository {
+  constructor(private tasksModel: typeof TaskModel) {}
 
-export class TaskRepository implements ITaskRepository {
-  constructor(private tasksModel: typeof Task) {}
-
-  async findAll(): Promise<ITaskDocument[]> {
+  async findAll(): Promise<TaskDocument[]> {
     return await this.tasksModel.find();
   }
 
-  async findById(id: string): Promise<ITaskDocument | null> {
+  async findById(id: string): Promise<TaskDocument | null> {
     const task = await this.tasksModel.findById(id);
     if (task) {
       return task.toObject();
@@ -18,7 +17,7 @@ export class TaskRepository implements ITaskRepository {
     return task;
   }
 
-  async create(task: ITask): Promise<ITaskDocument> {
+  async create(task: Task): Promise<TaskDocument> {
     return (await this.tasksModel.create(task)).toObject();
   }
 
@@ -27,7 +26,7 @@ export class TaskRepository implements ITaskRepository {
     return deleted.deletedCount > 0;
   }
 
-  async update(updateTask: IUpdateTask): Promise<boolean> {
+  async update(updateTask: UpdateTask): Promise<boolean> {
     const { _id, ...updateFields } = updateTask;
     const updated = await this.tasksModel.updateOne(
       { _id },

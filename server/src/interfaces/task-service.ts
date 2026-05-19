@@ -1,9 +1,9 @@
-import type { ITask, ITaskDocument, IUpdateTask } from "./task.js";
+import type { Task, TaskDocument, UpdateTask } from "./task.js";
 
-export interface ITaskService {
-  getAllTasks(): Promise<ITaskDocument[]>;
-  getTaskById(id: string): Promise<ITaskDocument | null>;
-  createTask(task: ITask): Promise<ITaskDocument | null>;
+export interface TaskService {
+  getAllTasks(): Promise<TaskDocument[]>;
+  getTaskById(id: string): Promise<TaskDocument | null>;
+  createTask(task: Task): Promise<TaskDocument | null>;
   deleteTaskById(id: string): Promise<boolean>;
-  updateTask(taskUpdate: IUpdateTask): Promise<boolean>;
+  updateTask(taskUpdate: UpdateTask): Promise<boolean>;
 }

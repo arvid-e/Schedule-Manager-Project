@@ -1,7 +1,7 @@
-import { ITokenDocument } from "../interfaces/token.js";
+import { TokenDocument } from "../interfaces/token.js";
 import { Schema, model } from "mongoose";
 
-const tokenSchema = new Schema<ITokenDocument>(
+const tokenSchema = new Schema<TokenDocument>(
   {
     userId: {
       type: String,
@@ -17,5 +17,5 @@ const tokenSchema = new Schema<ITokenDocument>(
   },
 );
 
-const Token = model<ITokenDocument>("Token", tokenSchema);
+const Token = model<TokenDocument>("Token", tokenSchema);
 export default Token;

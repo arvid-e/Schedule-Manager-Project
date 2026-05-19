@@ -1,16 +1,16 @@
 import { Document, Types } from "mongoose";
 
-export interface IUserCredentials {
+export interface UserCredentials {
   username: string;
   password: string;
 }
 
-export type ILoginData = IUserCredentials;
+export type LoginData = UserCredentials;
 
-export interface IRegisterUser extends IUserCredentials {}
+export interface RegisterUser extends UserCredentials {}
 
-export interface IUser extends IUserCredentials {}
+export interface User extends UserCredentials {}
 
-export interface IUserDocument extends IUser, Document {
+export interface UserDocument extends User, Document {
   _id: Types.ObjectId;
 }

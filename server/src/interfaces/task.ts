@@ -1,19 +1,19 @@
 import { Document } from 'mongoose';
 
-export interface ITask {
+export interface Task {
   title: string;
   description?: string;
   date: Date;
 }
 
-export interface IUpdateTask {
+export interface UpdateTask {
   _id: string;
   title?: string;
   description?: string;
   date: Date;
 }
 
-export interface ITaskDocument extends ITask, Document {}
+export interface TaskDocument extends Task, Document {}
 
 
 

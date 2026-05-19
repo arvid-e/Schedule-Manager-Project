@@ -1,26 +1,26 @@
 import type { JwtPayload } from "jsonwebtoken";
-import type { IUserDocument } from "./user.js";
+import type { UserDocument } from "./user.js";
 
-export interface ILoginData {
+export interface LoginData {
   username: string;
   password: string;
 }
 
-export interface IAuthResponse {
-  user: IUserDocument;
-  tokens: ITokenResponse;
+export interface AuthResponse {
+  user: UserDocument;
+  tokens: TokenResponse;
 }
 
-export interface IAuthPayload {
+export interface AuthPayload {
   id: string;
 }
 
-export interface ITokenResponse {
+export interface TokenResponse {
   accessToken: string;
   refreshToken: string;
 }
 
-export interface IDecodedToken extends JwtPayload, IAuthPayload {
+export interface DecodedToken extends JwtPayload, AuthPayload {
   iat: number; // Issued at (timestamp)
   exp: number; // Expiration (timestamp)
 }
