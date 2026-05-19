@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
 import { UserRequestWithId } from "../interfaces/requests.js";
-import { jwtProvider } from "../services/jwt-provider.js";
+import { jwtProviderImpl } from "../services/jwt-provider.js";
 
 export const protect = (
   req: UserRequestWithId,
@@ -17,7 +17,7 @@ export const protect = (
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwtProvider.verify(token);
+    const decoded = jwtProviderImpl.verify(token);
 
     req.user = { id: decoded.id };
 

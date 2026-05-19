@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 
-import { ITaskService } from '../interfaces/task-service.js';
-import { ITask, IUpdateTask } from '../interfaces/task.js';
+import { TaskService } from '../interfaces/task-service.js';
+import { Task, UpdateTask } from '../interfaces/task.js';
 import { catchAsync } from '../utils/catch-async.js';
 
 export class TaskController {
-  constructor(private taskService: ITaskService) {}
+  constructor(private taskService: TaskService) {}
 
   getAll = catchAsync(async (req: Request, res: Response) => {
     const tasks = await this.taskService.getAllTasks();
@@ -34,7 +34,7 @@ export class TaskController {
   });
 
   create = catchAsync(async (req: Request, res: Response) => {
-    const taskPayload: ITask = req.body;
+    const taskPayload: Task = req.body;
 
     const task = await this.taskService.createTask(taskPayload);
 
@@ -67,7 +67,7 @@ export class TaskController {
 
   update = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const updateFields: IUpdateTask = req.body;
+    const updateFields: UpdateTask = req.body;
 
     const updated = await this.taskService.updateTask(updateFields);
 

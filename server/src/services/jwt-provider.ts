@@ -14,4 +14,4 @@ export class JwtProviderImpl implements JwtProvider {
   }
 }
 
-export const jwtProvider = new JwtProviderImpl();
+export const jwtProviderImpl = new JwtProviderImpl();

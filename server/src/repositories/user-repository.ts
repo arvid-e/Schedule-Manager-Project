@@ -3,7 +3,7 @@ import { UserRepository } from "../interfaces/user-repository.js";
 import { RegisterUser, UserDocument } from "../interfaces/user.js";
 import { Model } from "mongoose";
 
-export class UserRespository implements UserRepository {
+export class UserRespositoryImpl implements UserRepository {
   constructor(private userModel: Model<UserDocument>) {}
 
   async findById(id: string): Promise<UserDocument | null> {

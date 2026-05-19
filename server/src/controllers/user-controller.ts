@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { isValidObjectId } from 'mongoose';
 import { UserRequestWithId } from '../interfaces/requests.js';
-import { IUserService } from '../interfaces/user-service.js';
+import { UserService } from '../interfaces/user-service.js';
 import { catchAsync } from '../utils/catch-async.js';
 
 export class UserController {
-  constructor(private userService: IUserService) {}
+  constructor(private userService: UserService) {}
 
   register = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
