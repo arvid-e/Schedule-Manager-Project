@@ -2,49 +2,45 @@ import { Request, Response } from 'express';
 
 import { TaskService } from '../interfaces/task-service.js';
 import { Task, UpdateTask } from '../interfaces/task.js';
-import { createFullYearInWeeks } from '../utils/date-utils.js';
+import { getWeekByNumber } from '../utils/date-utils.js';
 
 export class TaskController {
   constructor(private taskService: TaskService) {}
 
   getAll = async (req: Request, res: Response) => {
     const tasks = await this.taskService.getAllTasks();
-    const fullYearInWeeks = createFullYearInWeeks();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Tasks fetched successfully!',
+      data: tasks,
+    });
+  };
+
+  getWeek = async (req: Request, res: Response) => {
+    const { weekNumber } = req.body;
+
+    const week = getWeekByNumber(Number(weekNumber));
+    const startDate = week[0].date;
+    const endDate = week[6].date;
+
+    const tasks = await this.taskService.getTasksByDates(startDate, endDate);
 
     for (const task of tasks) {
-      for (const week of fullYearInWeeks) {
-        for (const day of week.weekDays) {
-          if (
-            `${day.date.getUTCFullYear()}-${day.date.getUTCMonth()}-${day.date.getUTCDate()}` ==
-            `${task.date.getUTCFullYear()}-${task.date.getUTCMonth()}-${task.date.getUTCDate()}`
-          ) {
-            day.tasks.push(task);
-          }
+      for (const day of week) {
+        if (
+          `${task.date.getUTCFullYear()}-${task.date.getUTCMonth()}-${task.date.getUTCDate()}` ===
+          `${day.date.getUTCFullYear()}-${day.date.getUTCMonth()}-${day.date.getUTCDate()}`
+        ) {
+          day.tasks.push(task);
         }
       }
     }
 
     res.status(200).json({
       status: 'success',
-      message: 'Events fetched successfully!',
-      data: {
-        tasks,
-        fullYearInWeeks,
-      },
-    });
-  };
-
-  getByDates = async (req: Request, res: Response) => {
-    const { startDate, endDate } = req.body;
-
-    const tasks = await this.taskService.getTasksByDates(startDate, endDate);
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Event fetched successfully!',
-      data: {
-        tasks,
-      },
+      message: 'Tasks fetched successfully!',
+      data: week,
     });
   };
 
@@ -55,7 +51,7 @@ export class TaskController {
 
     res.status(200).json({
       status: 'success',
-      message: 'Event fetched successfully!',
+      message: 'Task fetched successfully!',
       data: {
         task,
       },
@@ -69,7 +65,7 @@ export class TaskController {
 
     res.status(201).json({
       status: 'success',
-      message: 'Event created successfully!',
+      message: 'Task created successfully!',
       data: {
         task,
       },
@@ -106,7 +102,7 @@ export class TaskController {
 
     res.status(200).json({
       status: 'success',
-      message: 'Event edited successfully!',
+      message: 'Task edited successfully!',
       data: {
         id,
       },
