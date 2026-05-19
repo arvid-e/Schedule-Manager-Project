@@ -13,6 +13,7 @@ const eventService = new TaskServiceImpl(taskRepo);
 const controller = new TaskController(eventService);
 
 router.get("/", controller.getAll);
+router.get('/week', controller.getByDates);
 router.get("/:id", controller.getById);
 router.post("/", protect, controller.create);
 router.patch("/:id", protect, controller.update);

@@ -2,16 +2,46 @@ import { Request, Response } from 'express';
 
 import { TaskService } from '../interfaces/task-service.js';
 import { Task, UpdateTask } from '../interfaces/task.js';
+import { createFullYearInWeeks } from '../utils/date-utils.js';
 
 export class TaskController {
   constructor(private taskService: TaskService) {}
 
   getAll = async (req: Request, res: Response) => {
     const tasks = await this.taskService.getAllTasks();
+    const fullYearInWeeks = createFullYearInWeeks();
+
+    for (const task of tasks) {
+      for (const week of fullYearInWeeks) {
+        for (const day of week.weekDays) {
+          if (
+            `${day.date.getUTCFullYear()}-${day.date.getUTCMonth()}-${day.date.getUTCDate()}` ==
+            `${task.date.getUTCFullYear()}-${task.date.getUTCMonth()}-${task.date.getUTCDate()}`
+          ) {
+            day.tasks.push(task);
+          }
+        }
+      }
+    }
 
     res.status(200).json({
       status: 'success',
       message: 'Events fetched successfully!',
+      data: {
+        tasks,
+        fullYearInWeeks,
+      },
+    });
+  };
+
+  getByDates = async (req: Request, res: Response) => {
+    const { startDate, endDate } = req.body;
+
+    const tasks = await this.taskService.getTasksByDates(startDate, endDate);
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Event fetched successfully!',
       data: {
         tasks,
       },

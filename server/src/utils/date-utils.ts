@@ -1,5 +1,4 @@
-import { Week, WeekDay } from "../interfaces/week.js";
-
+import { Week, WeekDay } from '../interfaces/week.js';
 
 /**
  * Gets the weekdays of the first week of the year that belongs to specified year.
@@ -70,10 +69,10 @@ export function fillMissingDaysInWeek(incompleteWeek: Date[]): Date[] {
 
 /**
  * Creates a full year of weeks with week numbers, dates and empty task arrays.
- * 
+ *
  * @returns - One year of week objects.
  */
-export function createFullYearOfWeeks() {
+export function createFullYearInWeeks() {
   const sparseFirstWeek = getFirstWeekOfTheYear();
   const fullFirstWeek = fillMissingDaysInWeek(sparseFirstWeek);
 
@@ -93,9 +92,9 @@ export function createFullYearOfWeeks() {
       currentDay.setUTCDate(currentDay.getUTCDate() + 1);
 
       let weekDay: WeekDay = {
-        date: new Date(),
+        date: new Date(currentDay),
         tasks: [],
-      }
+      };
 
       week.weekDays.push(weekDay);
     }
@@ -107,4 +106,15 @@ export function createFullYearOfWeeks() {
   }
 
   return fullYearOfWeeks;
+}
+
+export function getWeekByNumber(weekNumber: number): WeekDay[] {
+  const allWeeks = createFullYearInWeeks();
+  for (const week of allWeeks) {
+    if (week.weekNumber === weekNumber) {
+      return week.weekDays;
+    }
+  }
+
+  return [];
 }

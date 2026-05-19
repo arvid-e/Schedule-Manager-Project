@@ -9,6 +9,10 @@ export class TaskServiceImpl implements TaskService {
     return this.taskRepository.findAll();
   }
 
+  async getTasksByDates(startDate: Date, endDate: Date): Promise<TaskDocument[]> {
+    return this.taskRepository.findByDates(startDate, endDate);
+  }
+
   async getTaskById(id: string): Promise<TaskDocument | null> {
     return this.taskRepository.findById(id);
   }
