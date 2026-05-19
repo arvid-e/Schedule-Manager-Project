@@ -1,22 +1,22 @@
 
-import { IUserRepository } from "../interfaces/user-repository.js";
-import { IRegisterUser, IUserDocument } from "../interfaces/user.js";
+import { UserRepository } from "../interfaces/user-repository.js";
+import { RegisterUser, UserDocument } from "../interfaces/user.js";
 import { Model } from "mongoose";
 
-export class UserRespository implements IUserRepository {
-  constructor(private userModel: Model<IUserDocument>) {}
+export class UserRespository implements UserRepository {
+  constructor(private userModel: Model<UserDocument>) {}
 
-  async findById(id: string): Promise<IUserDocument | null> {
+  async findById(id: string): Promise<UserDocument | null> {
     const user = this.userModel.findById(id);
     return await user.select("+password");
   }
 
-  async findByUsername(username: string): Promise<IUserDocument | null> {
+  async findByUsername(username: string): Promise<UserDocument | null> {
     const user = this.userModel.findOne({ username });
     return await user.select("+password");
   }
 
-  async create(userData: IRegisterUser): Promise<IUserDocument> {
+  async create(userData: RegisterUser): Promise<UserDocument> {
     return await this.userModel.create(userData);
   }
 

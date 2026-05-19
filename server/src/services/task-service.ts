@@ -1,19 +1,19 @@
-import { ITaskRepository } from "../interfaces/task-repository.js";
-import { ITaskService } from "../interfaces/task-service.js";
-import { ITask, ITaskDocument, IUpdateTask } from "../interfaces/task.js";
+import { TaskRepository } from "../interfaces/task-repository.js";
+import { TaskService } from "../interfaces/task-service.js";
+import { Task, TaskDocument, UpdateTask } from "../interfaces/task.js";
 
-export class TaskService implements ITaskService {
-  constructor(private taskRepository: ITaskRepository) {}
+export class TaskServiceImpl implements TaskService {
+  constructor(private taskRepository: TaskRepository) {}
 
-  async getAllTasks(): Promise<ITaskDocument[]> {
+  async getAllTasks(): Promise<TaskDocument[]> {
     return this.taskRepository.findAll();
   }
 
-  async getTaskById(id: string): Promise<ITaskDocument | null> {
+  async getTaskById(id: string): Promise<TaskDocument | null> {
     return this.taskRepository.findById(id);
   }
 
-  async createTask(task: ITask): Promise<ITaskDocument> {
+  async createTask(task: Task): Promise<TaskDocument> {
     return this.taskRepository.create(task);
   }
 
@@ -21,7 +21,7 @@ export class TaskService implements ITaskService {
     return this.taskRepository.delete(id);
   }
 
-  async updateTask(taskData: IUpdateTask): Promise<boolean> {
+  async updateTask(taskData: UpdateTask): Promise<boolean> {
     return this.taskRepository.update(taskData);
   }
 }

@@ -1,18 +1,18 @@
 import bcrypt from "bcryptjs";
 import { BCRYPT_SALT_ROUNDS } from "../config/constants.js";
-import { IAuthResponse } from "../interfaces/auth.js";
-import { ITokenService } from "../interfaces/token-service.js";
-import { IUserRepository } from "../interfaces/user-repository.js";
-import { IUserService } from "../interfaces/user-service.js";
-import { ILoginData, IRegisterUser } from "../interfaces/user.js";
+import { AuthResponse } from "../interfaces/auth.js";
+import { TokenService } from "../interfaces/token-service.js";
+import { UserRepository } from "../interfaces/user-repository.js";
+import { UserService } from "../interfaces/user-service.js";
+import { LoginData, RegisterUser } from "../interfaces/user.js";
 
-export class UserService implements IUserService {
+export class UserServiceImpl implements UserService {
   constructor(
-    private userRepository: IUserRepository,
-    private tokenService: ITokenService,
+    private userRepository: UserRepository,
+    private tokenService: TokenService,
   ) {}
 
-  async login(loginData: ILoginData): Promise<IAuthResponse> {
+  async login(loginData: LoginData): Promise<AuthResponse> {
     const { username, password } = loginData;
 
     if (!username || !password) {
@@ -48,7 +48,7 @@ export class UserService implements IUserService {
     };
   }
 
-  async register(registerData: IRegisterUser): Promise<IAuthResponse> {
+  async register(registerData: RegisterUser): Promise<AuthResponse> {
     const { username, password } = registerData;
 
     if (!username || !password) {

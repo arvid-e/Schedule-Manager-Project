@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
 import { Types } from "mongoose";
 import { describe, it } from "vitest";
-import { ITokenService } from "../interfaces/token-service.js";
-import { IUserRepository } from "../interfaces/user-repository.js";
-import { IUserService } from "../interfaces/user-service.js";
-import { IUserCredentials, IUserDocument } from "../interfaces/user.js";
-import { UserService } from "./user-service.js";
+import { TokenService } from "../interfaces/token-service.js";
+import { UserRepository } from "../interfaces/user-repository.js";
+import { UserService } from "../interfaces/user-service.js";
+import { UserCredentials, UserDocument } from "../interfaces/user.js";
+import { UserServiceImpl } from "./user-service.js";
 
 const TEST_USERNAME = "testuser";
 const TEST_PASSWORD = "testpassword123";
@@ -20,23 +20,23 @@ vi.mock("bcryptjs", () => ({
 }));
 
 describe("userService", () => {
-  let mockUserRepo: IUserRepository;
-  let mockTokenService: ITokenService;
-  let userService: IUserService;
+  let mockUserRepo: UserRepository;
+  let mockTokenService: TokenService;
+  let userService: UserService;
 
   const createMockUser = (username: string, password: string) =>
     ({
       _id: new Types.ObjectId(),
       username,
       password,
-    }) as IUserDocument;
+    }) as UserDocument;
 
   const createMockTokenResponse = () => ({
     accessToken: ACCESS_TOKEN,
     refreshToken: REFRESH_TOKEN,
   });
 
-  const credentials: IUserCredentials = {
+  const credentials: UserCredentials = {
     username: TEST_USERNAME,
     password: TEST_PASSWORD,
   };
@@ -46,13 +46,13 @@ describe("userService", () => {
       findById: vi.fn(),
       findByUsername: vi.fn(),
       create: vi.fn(),
-    } as unknown as IUserRepository;
+    } as unknown as UserRepository;
 
     mockTokenService = {
       generateAccessPair: vi.fn(),
-    } as unknown as ITokenService;
+    } as unknown as TokenService;
 
-    userService = new UserService(mockUserRepo, mockTokenService);
+    userService = new UserServiceImpl(mockUserRepo, mockTokenService);
   });
 
   describe("login()", () => {

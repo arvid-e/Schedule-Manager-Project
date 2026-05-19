@@ -1,17 +1,17 @@
-import { IAuthPayload, IDecodedToken } from "../interfaces/auth.js";
-import { IJwtProvider } from "../interfaces/jwt-provider.js";
+import { AuthPayload, DecodedToken } from "../interfaces/auth.js";
+import { JwtProvider } from "../interfaces/jwt-provider.js";
 import jwt, { SignOptions } from "jsonwebtoken";
 
-export class JwtProvider implements IJwtProvider {
+export class JwtProviderImpl implements JwtProvider {
   private readonly secret = process.env.JWT_SECRET!;
 
-  sign(payload: IAuthPayload, options?: SignOptions): string {
+  sign(payload: AuthPayload, options?: SignOptions): string {
     return jwt.sign(payload, this.secret, options);
   }
 
-  verify(token: string): IDecodedToken {
-    return jwt.verify(token, this.secret) as IDecodedToken;
+  verify(token: string): DecodedToken {
+    return jwt.verify(token, this.secret) as DecodedToken;
   }
 }
 
-export const jwtProvider = new JwtProvider();
+export const jwtProvider = new JwtProviderImpl();
