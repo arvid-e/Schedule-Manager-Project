@@ -18,24 +18,28 @@ export class TaskController {
   };
 
   getWeek = async (req: Request, res: Response) => {
-    const { weekNumber } = req.body;
+    const { id } = req.params;
 
-    const week = getWeekByNumber(Number(weekNumber));
+    const week = getWeekByNumber(Number(id));
     const startDate = week[0].date;
     const endDate = week[6].date;
 
     const tasks = await this.taskService.getTasksByDates(startDate, endDate);
 
-    for (const task of tasks) {
-      for (const day of week) {
-        if (
-          `${task.date.getUTCFullYear()}-${task.date.getUTCMonth()}-${task.date.getUTCDate()}` ===
-          `${day.date.getUTCFullYear()}-${day.date.getUTCMonth()}-${day.date.getUTCDate()}`
-        ) {
-          day.tasks.push(task);
+    if (tasks != null && tasks.length > 0) {
+      console.log("LOAD TASKS");
+      for (const task of tasks) {
+        for (const day of week) {
+          if (
+            `${task.date.getUTCFullYear()}-${task.date.getUTCMonth()}-${task.date.getUTCDate()}` ===
+            `${day.date.getUTCFullYear()}-${day.date.getUTCMonth()}-${day.date.getUTCDate()}`
+          ) {
+            day.tasks.push(task);
+          }
         }
       }
     }
+
 
     res.status(200).json({
       status: 'success',
