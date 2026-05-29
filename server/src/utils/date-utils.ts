@@ -81,6 +81,7 @@ export function createFullYearInWeeks() {
 
   const fullYearOfWeeks = [];
   let weekNumber = 0;
+  let isFirstWeek = true;
 
   while (currentDay.getUTCFullYear() < currentYear + 1) {
     let week: Week = {
@@ -89,9 +90,13 @@ export function createFullYearInWeeks() {
     };
 
     for (let i = 0; i < 7; i++) {
-      currentDay.setUTCDate(currentDay.getUTCDate() + 1);
-
-      week.weekDays.push(new Date(currentDay));
+      if (isFirstWeek) {
+        week.weekDays.push(new Date(currentDay));
+        isFirstWeek = false;
+      } else {
+        currentDay.setUTCDate(currentDay.getUTCDate() + 1);
+        week.weekDays.push(new Date(currentDay));
+      }
     }
 
     weekNumber += 1;
