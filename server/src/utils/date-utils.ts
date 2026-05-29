@@ -1,4 +1,4 @@
-import { Week, WeekDay } from '../interfaces/week.js';
+import { Week } from '../interfaces/week.js';
 
 /**
  * Gets the weekdays of the first week of the year that belongs to specified year.
@@ -91,12 +91,7 @@ export function createFullYearInWeeks() {
     for (let i = 0; i < 7; i++) {
       currentDay.setUTCDate(currentDay.getUTCDate() + 1);
 
-      let weekDay: WeekDay = {
-        date: new Date(currentDay),
-        tasks: [],
-      };
-
-      week.weekDays.push(weekDay);
+      week.weekDays.push(new Date(currentDay));
     }
 
     weekNumber += 1;
@@ -108,7 +103,7 @@ export function createFullYearInWeeks() {
   return fullYearOfWeeks;
 }
 
-export function getWeekByNumber(weekNumber: number): WeekDay[] {
+export function getWeekByNumber(weekNumber: number): Date[] {
   const allWeeks = createFullYearInWeeks();
   for (const week of allWeeks) {
     if (week.weekNumber === weekNumber) {

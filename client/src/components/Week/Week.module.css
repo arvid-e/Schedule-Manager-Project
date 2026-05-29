@@ -1,0 +1,36 @@
+
+.week {
+  display: flex;
+  gap: 100px;
+}
+
+.mondayTasks {
+  background-color: blue;
+}
+
+.tuesdayTasks {
+  background-color: green;
+}
+
+.wednesdayTasks {
+  background-color: red;
+}
+
+.thursdayTasks {
+  background-color: rgb(243, 160, 5);
+}
+
+.fridayTasks {
+  background-color: rgb(5, 243, 231);
+}
+
+.saturdayTasks {
+  background-color: rgb(215, 5, 243);
+}
+
+.sundayTasks {
+  background-color: rgb(121, 80, 18);
+}
+
+
+

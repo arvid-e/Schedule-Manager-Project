@@ -6,7 +6,7 @@ function Header() {
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">Events</a></li>
+                    <li><a href="#">Tasks</a></li>
                     <li><a href="#">Schedule</a></li>
                 </ul>
             </nav>
