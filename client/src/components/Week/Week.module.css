@@ -1,36 +1,22 @@
+.main {
+  display: flex;
+}
 
 .week {
   display: flex;
-  gap: 100px;
+  gap: 0px;
+  height: 700px;
+  background-color: bisque;
 }
 
-.mondayTasks {
-  background-color: blue;
+.dayOfTheWeek {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(171, 206, 230);
+  border: 1px solid black;
+  width: 100px;
 }
 
-.tuesdayTasks {
-  background-color: green;
-}
-
-.wednesdayTasks {
-  background-color: red;
-}
-
-.thursdayTasks {
-  background-color: rgb(243, 160, 5);
-}
-
-.fridayTasks {
-  background-color: rgb(5, 243, 231);
-}
-
-.saturdayTasks {
-  background-color: rgb(215, 5, 243);
-}
-
-.sundayTasks {
-  background-color: rgb(121, 80, 18);
-}
 
 
 

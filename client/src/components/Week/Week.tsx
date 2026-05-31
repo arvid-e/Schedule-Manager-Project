@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Task } from '../../interfaces/task';
+import WeekDay from '../WeekDay/WeekDay';
 
 import styles from './Week.module.css';
 
@@ -112,123 +113,34 @@ function Week({ tasks, days }: WeekProps) {
     <>
       <div className={styles.main}>
         <div className={styles.week}>
-          <div className={styles.monday}>
-            <div>Monday</div>
-            <div>{new Date(days[0]).getUTCDate().toString()}</div>
-            <ul className={styles.mondayTasks}>
-              {mondayTasks.map((task, index) => (
-                <li key={index} className={styles.task}>
-                  <p className="text">{task.title}</p>
-                  <p className="text">{task.description}</p>
 
-                  <button className="delete-task-button">Complete</button>
-                </li>
-              ))}
-            </ul>
+          <div className={styles.dayOfTheWeek}>
+            <WeekDay dayOfTheWeek='Monday' weekdayNumber={0} tasks={mondayTasks} days={days}/>
           </div>
 
-          <div className={styles.tueday}>
-            <div>Tuesday</div>
-            <div>{new Date(days[1]).getUTCDate().toString()}</div>
-            <ul className={styles.tuesdayTasks}>
-              {tuesdayTasks.map((task, index) => (
-                <li key={index} className={styles.task}>
-                  <p className="text">{task.title}</p>
-                  <p className="text">{task.description}</p>
-
-                  <button className="delete-task-button">Complete</button>
-                </li>
-              ))}
-            </ul>
+          <div className={styles.dayOfTheWeek}>
+            <WeekDay dayOfTheWeek='Tuesday' weekdayNumber={1} tasks={tuesdayTasks} days={days}/>
           </div>
 
-          <div className={styles.wednesday}>
-            <div>Wednesday</div>
-            <div>{new Date(days[2]).getUTCDate().toString()}</div>
-            <ul className={styles.wednesdayTasks}>
-              {wednesdayTasks.map((task, index) => (
-                <li key={index} className={styles.task}>
-                  <p className="text">{task.title}</p>
-                  <p className="text">{task.description}</p>
-
-                  <button className="delete-task-button">Complete</button>
-                </li>
-              ))}
-            </ul>
+          <div className={styles.dayOfTheWeek}>
+            <WeekDay dayOfTheWeek='Wednesday' weekdayNumber={2} tasks={wednesdayTasks} days={days}/>
           </div>
 
-          <div className={styles.thursday}>
-            <div>Thursday</div>
-            <div>{new Date(days[3]).getUTCDate().toString()}</div>
-            <ul className={styles.thursdayTasks}>
-              {thursdayTasks.map((task, index) => (
-                <li key={index} className={styles.task}>
-                  <p className="text">{task.title}</p>
-                  <p className="text">{task.description}</p>
-
-                  <button className="delete-task-button">Complete</button>
-                </li>
-              ))}
-            </ul>
+          <div className={styles.dayOfTheWeek}>
+            <WeekDay dayOfTheWeek='Thursday' weekdayNumber={3} tasks={thursdayTasks} days={days}/>
           </div>
 
-          <div className={styles.friday}>
-            <div>Friday</div>
-            <div>{new Date(days[4]).getUTCDate().toString()}</div>
-            <ul className={styles.fridayTasks}>
-              {fridayTasks.map((task, index) => (
-                <li key={index} className={styles.task}>
-                  <p className="text">{task.title}</p>
-                  <p className="text">{task.description}</p>
-
-                  <button className="delete-task-button">Complete</button>
-                </li>
-              ))}
-            </ul>
+          <div className={styles.dayOfTheWeek}>
+            <WeekDay dayOfTheWeek='Friday' weekdayNumber={4} tasks={fridayTasks} days={days}/>
           </div>
 
-          <div className={styles.saturday}>
-            <div>Saturday</div>
-            <div>{new Date(days[5]).getUTCDate().toString()}</div>
-            <ul className={styles.saturdayTasks}>
-              {saturdayTasks.map((task, index) => (
-                <li key={index} className={styles.task}>
-                  <p className="text">{task.title}</p>
-                  <p className="text">{task.description}</p>
-
-                  <button className="delete-task-button">Complete</button>
-                </li>
-              ))}
-            </ul>
+          <div className={styles.dayOfTheWeek}>
+            <WeekDay dayOfTheWeek='Saturday' weekdayNumber={5} tasks={saturdayTasks} days={days}/>
           </div>
 
-          <div className={styles.sunday}>
-            <div>Sunday</div>
-            <div>{new Date(days[6]).getUTCDate().toString()}</div>
-            <ul className={styles.sundayTasks}>
-              {sundayTasks.map((task, index) => (
-                <li key={index} className={styles.task}>
-                  <p className="text">{task.title}</p>
-                  <p className="text">{task.description}</p>
-
-                  <button className="delete-task-button">Complete</button>
-                </li>
-              ))}
-            </ul>
+          <div className={styles.dayOfTheWeek}>
+            <WeekDay dayOfTheWeek='Sunday' weekdayNumber={6} tasks={sundayTasks} days={days}/>
           </div>
-        </div>
-
-        <div className={styles.weekBacklog}>
-          <div>Week Backlog</div>
-          <ul className={styles.taskList}>
-            {tasks.map((task, index) => (
-              <li key={index} className={styles.task}>
-                <p className="text">{task.title}</p>
-                <p className="text">{task.description}</p>
-                <p className="">{task.date.toString()}</p>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </>
