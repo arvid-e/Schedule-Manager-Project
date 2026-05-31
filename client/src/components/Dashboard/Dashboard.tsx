@@ -4,11 +4,11 @@ import Week from '../Week/Week';
 import type { Task } from '../../interfaces/task';
 import { getWeek } from '../../services/task-service';
 import styles from './Dashboard.module.css';
-import { getCurrentDateAndYear } from '../../utils/date-utils';
-
+import { getCurrentDateAndYear, getWeekNumberByDate } from '../../utils/date-utils';
 
 function Dashboard() {
-  const [weekNumber, setWeekNumber] = useState<string>('');
+  const currentWeek = getWeekNumberByDate().toString();
+  const [weekNumber, setWeekNumber] = useState<string>(currentWeek);
   const [input, setInput] = useState<string>('');
   const [days, setDays] = useState<Date[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -54,9 +54,6 @@ function Dashboard() {
         ></input>
 
         <button onClick={() => handleClick()}>Change week</button>
-      </div>
-
-      <div>
         <div>{getCurrentDateAndYear(days)}</div>
       </div>
 

@@ -1,16 +1,10 @@
+import styles from './Header.module.css';
 
 function Header() {
     return(
-        <header>
+        <div className={styles.header}>
             <h1>Schedule Manager</h1>
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Tasks</a></li>
-                    <li><a href="#">Schedule</a></li>
-                </ul>
-            </nav>
-        </header>
+        </div>
     )
 }
 

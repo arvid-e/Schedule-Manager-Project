@@ -1,10 +1,9 @@
 body {
     display: flex;
+    justify-content: center;
 }
 
 #to-to-list-container {
     display: flex;
     gap: 55px;
-
 }
-
