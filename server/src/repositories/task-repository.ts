@@ -11,7 +11,7 @@ export class TaskRepositoryImpl implements TaskRepository {
 
   async findByDates(startDate: Date, endDate: Date): Promise<TaskDocument[]> {
     return await this.tasksModel.find({
-      createdAt: {
+      date: {
         $gte: startDate,
         $lt: endDate,
       },

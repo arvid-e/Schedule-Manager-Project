@@ -51,9 +51,9 @@ export class TaskController {
   };
 
   create = async (req: Request, res: Response) => {
-    const taskPayload: Task = req.body;
+    const { title, description, date } = req.body;
 
-    const task = await this.taskService.createTask(taskPayload);
+    const task = await this.taskService.createTask({title, description, date});
 
     res.status(201).json({
       status: 'success',
