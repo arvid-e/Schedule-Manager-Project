@@ -3,8 +3,11 @@ import Week from '../Week/Week';
 
 import type { Task } from '../../interfaces/task';
 import { getWeek } from '../../services/task-service';
+import {
+  getCurrentDateAndYear,
+  getWeekNumberByDate,
+} from '../../utils/date-utils';
 import styles from './Dashboard.module.css';
-import { getCurrentDateAndYear, getWeekNumberByDate } from '../../utils/date-utils';
 
 function Dashboard() {
   const currentWeek = getWeekNumberByDate().toString();
@@ -41,19 +44,22 @@ function Dashboard() {
 
   return (
     <>
-      <div className={styles.navBar}>
-        <div>{weekNumber}</div>
-
-        <button onClick={() => prevWeek()}>Prev</button>
-        <button onClick={() => nextWeek()}>Next</button>
-
+      <div>
+        <button onClick={() => handleClick()}>Change week</button>
         <input
           type="text"
           placeholder="Enter week number..."
           onChange={(e) => setInput(e.target.value)}
         ></input>
+        <div>{weekNumber}</div>
+      </div>
+      
+      <div className={styles.navBar}>
+        <div className={styles.changeWeekButtons}>
+          <button onClick={() => prevWeek()}>Prev</button>
+          <button onClick={() => nextWeek()}>Next</button>
+        </div>
 
-        <button onClick={() => handleClick()}>Change week</button>
         <div>{getCurrentDateAndYear(days)}</div>
       </div>
 

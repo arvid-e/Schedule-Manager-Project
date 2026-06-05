@@ -12,7 +12,6 @@ export function getCurrentDateAndYear(days: Date[]): string {
 
       const month = new Date(day).getUTCMonth();
       const monthStr = convertNumberToMonthString(month);
-      console.log(monthStr);
 
       if (!foundYears.includes(yearStr)) {
         foundYears.push(yearStr);

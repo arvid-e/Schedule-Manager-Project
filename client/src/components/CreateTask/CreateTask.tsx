@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createTask } from '../../services/task-service';
+import { createTask, deleteTask } from '../../services/task-service';
 import styles from './CreateTask.module.css';
 
 interface CreateTaskProps {
@@ -28,6 +28,7 @@ function CreateTask({ date }: CreateTaskProps) {
     await createTask(task);
     setIsActive(false);
   };
+
 
   const handleIsActive = () => {
     if (isActive) {

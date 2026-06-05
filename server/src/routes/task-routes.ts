@@ -15,8 +15,8 @@ const controller = new TaskController(eventService);
 router.get("/", controller.getAll);
 router.get('/week/:id', controller.getWeek)
 router.get("/:id", controller.getById);
-router.post("/", protect, controller.create);
+router.post("/", controller.create);
 router.patch("/:id", protect, controller.update);
-router.delete("/:id", protect, controller.delete);
+router.delete("/:id", controller.delete);
 
 export default router;

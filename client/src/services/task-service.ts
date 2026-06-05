@@ -1,4 +1,4 @@
-import type { Task } from '../interfaces/task';
+import type { CreateTask } from '../interfaces/task';
 
 export const getWeek = async (weekNumber: number) => {
   const response = await fetch(`/api/v1/tasks/week/${weekNumber}`);
@@ -7,7 +7,7 @@ export const getWeek = async (weekNumber: number) => {
   return data.data;
 };
 
-export const createTask = async (task: Task) => {
+export const createTask = async (task: CreateTask) => {
   const response = await fetch(`/api/v1/tasks`, {
     method: 'POST',
     headers: {
@@ -18,6 +18,18 @@ export const createTask = async (task: Task) => {
       description: task.description,
       date: task.date,
     }),
+  });
+  const data = await response.json();
+
+  return data;
+};
+
+export const deleteTask = async (taskId: string) => {
+  const response = await fetch(`/api/v1/tasks/${taskId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
   const data = await response.json();
 

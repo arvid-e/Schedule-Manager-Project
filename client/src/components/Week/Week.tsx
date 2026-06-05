@@ -37,11 +37,8 @@ function sortTasks(tasks: Task[], week: Date[]): SortedTasks {
     saturday: [],
     sunday: [],
   };
-  console.log('Checking if sorting is possible...');
 
   if (tasks != null && tasks.length > 0 && week != null && week.length > 0) {
-    console.log('Sorting dates...');
-
     for (const task of tasks) {
       for (const day of week) {
         const taskDate = new Date(task.date);
@@ -50,7 +47,6 @@ function sortTasks(tasks: Task[], week: Date[]): SortedTasks {
         const weekDateTrimmed = `${weekDate.getUTCFullYear()}-${weekDate.getUTCMonth()}-${weekDate.getUTCDate()}`;
 
         if (taskDateTrimmed === weekDateTrimmed) {
-          console.log('FOUND MATCHING DAY');
           const dayOfTask = taskDate.getUTCDay();
 
           if (dayOfTask === monday) {
@@ -72,7 +68,6 @@ function sortTasks(tasks: Task[], week: Date[]): SortedTasks {
       }
     }
   }
-  console.log(sortedTasks);
 
   return sortedTasks;
 }
