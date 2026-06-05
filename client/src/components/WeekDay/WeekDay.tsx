@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Task } from '../../interfaces/task';
-import { deleteTask } from '../../services/task-service';
-import CreateTask from '../CreateTask/CreateTask';
+import { createTask, deleteTask } from '../../services/task-service';
 import styles from './WeekDay.module.css';
 
 interface WeekDayProps {
@@ -23,8 +22,17 @@ function deleteTaskById(id: string, tasks: Task[]): Task[] {
   return updatedTasks;
 }
 
+function addTask(task: Task, tasks: Task[]) {
+  const newTasks: Task[] = [...tasks];
+  newTasks.push(task);
+  return newTasks;
+}
+
 function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
   const [currentTasks, setCurrentTasks] = useState<Task[]>(tasks);
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   useEffect(() => {
     setCurrentTasks(tasks);
@@ -33,6 +41,35 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
   const handleDeleteTask = async (taskId: string) => {
     await deleteTask(taskId);
     setCurrentTasks(deleteTaskById(taskId, tasks));
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setDescription(event.target.value);
+  };
+
+  const handleCreateTask = async () => {
+    const task = {
+      title: title,
+      description: description,
+      date: days[weekdayNumber],
+    };
+    const newTask = await createTask(task);
+    setCurrentTasks(addTask(newTask.data.task, currentTasks));
+    setIsActive(false);
+  };
+
+  const handleIsActive = () => {
+    if (isActive) {
+      setIsActive(false);
+    } else {
+      setIsActive(true);
+    }
   };
 
   return (
@@ -48,7 +85,7 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
               <div className={styles.task}>
                 <p className="text">{task.title}</p>
                 <p className="text">{task.description}</p>
-                <button onClick={() => handleDeleteTask(task._id)}>
+                <button onClick={() => handleDeleteTask(task._id || '')}>
                   Delete
                 </button>
               </div>
@@ -58,7 +95,25 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
           ''
         )}
 
-        <CreateTask date={days[weekdayNumber]} />
+        <button onClick={handleIsActive}>Create</button>
+
+        {isActive ? (
+          <div className={styles.createTaskContainer}>
+            <input
+              value={title}
+              onChange={handleTitleChange}
+              type="text"
+            ></input>
+            <input
+              value={description}
+              onChange={handleDescriptionChange}
+              type="text"
+            ></input>
+            <button onClick={handleCreateTask}>Create</button>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     </>
   );
