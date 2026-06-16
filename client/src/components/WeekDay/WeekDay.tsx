@@ -10,6 +10,17 @@ interface WeekDayProps {
   weekdayNumber: number;
 }
 
+function dateIsToday(date: Date): boolean {
+  const dateToCheck = new Date(date);
+  const today = new Date();
+
+  return (
+    dateToCheck.getUTCFullYear() === today.getUTCFullYear() &&
+    dateToCheck.getUTCMonth() === today.getUTCMonth() &&
+    dateToCheck.getUTCDate() === today.getUTCDate()
+  );
+}
+
 function deleteTaskById(id: string, tasks: Task[]): Task[] {
   const updatedTasks: Task[] = [];
 
@@ -33,6 +44,7 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [isActive, setIsActive] = useState<boolean>(false);
+  const isToday = dateIsToday(days[weekdayNumber]);
 
   useEffect(() => {
     setCurrentTasks(tasks);
@@ -74,11 +86,12 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
 
   return (
     <>
-      <div className={styles.dayOfTheWeek}>
+      <div className={isToday ? styles.dayOfTheWeekToday : styles.dayOfTheWeek}>
         <div className={styles.weekdayHeader}>
           <div>{dayOfTheWeek}</div>
           <div>{new Date(days[weekdayNumber]).getUTCDate().toString()}</div>
         </div>
+        <button onClick={handleIsActive}>Create</button>
         {currentTasks.length > 0 ? (
           <div className={styles.tasksContainer}>
             {currentTasks.map((task) => (
@@ -95,7 +108,7 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
           ''
         )}
 
-        <button onClick={handleIsActive}>Create</button>
+        
 
         {isActive ? (
           <div className={styles.createTaskContainer}>

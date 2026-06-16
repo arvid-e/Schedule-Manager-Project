@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import type { Task } from '../../interfaces/task';
 import WeekDay from '../WeekDay/WeekDay';
 
@@ -72,73 +72,34 @@ function sortTasks(tasks: Task[], week: Date[]): SortedTasks {
   return sortedTasks;
 }
 
+const DAY_NAMES = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+] as const;
+
 function Week({ tasks, days }: WeekProps) {
-  const [loading, setLoading] = useState(false);
-  const [mondayTasks, setMondayTasks] = useState<Task[]>([]);
-  const [tuesdayTasks, setTuesdayTasks] = useState<Task[]>([]);
-  const [wednesdayTasks, setWednesdayTasks] = useState<Task[]>([]);
-  const [thursdayTasks, setThursdayTasks] = useState<Task[]>([]);
-  const [fridayTasks, setFridayTasks] = useState<Task[]>([]);
-  const [saturdayTasks, setSaturdayTasks] = useState<Task[]>([]);
-  const [sundayTasks, setSundayTasks] = useState<Task[]>([]);
-
-  useEffect(() => {
-    const getWeekData = async () => {
-      setLoading(true);
-
-      const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } =
-        sortTasks(tasks, days);
-
-      setMondayTasks(monday);
-      setTuesdayTasks(tuesday);
-      setWednesdayTasks(wednesday);
-      setThursdayTasks(thursday);
-      setFridayTasks(friday);
-      setSaturdayTasks(saturday);
-      setSundayTasks(sunday);
-
-      setLoading(false);
-    };
-    getWeekData();
-  }, [tasks, days]);
-
-  if (loading) return <div>Searching database...</div>;
+  const sortedTasks = useMemo(() => sortTasks(tasks, days), [tasks, days]);
 
   return (
-    <>
-      <div className={styles.main}>
-        <div className={styles.week}>
-
-          <div className={styles.dayOfTheWeek}>
-            <WeekDay dayOfTheWeek='Monday' weekdayNumber={0} tasks={mondayTasks} days={days}/>
+    <div className={styles.main}>
+      <div className={styles.week}>
+        {DAY_NAMES.map((day, i) => (
+          <div key={day} className={styles.dayOfTheWeek}>
+            <WeekDay
+              dayOfTheWeek={day}
+              weekdayNumber={i}
+              tasks={sortedTasks[day.toLowerCase() as keyof typeof sortedTasks]}
+              days={days}
+            />
           </div>
-
-          <div className={styles.dayOfTheWeek}>
-            <WeekDay dayOfTheWeek='Tuesday' weekdayNumber={1} tasks={tuesdayTasks} days={days}/>
-          </div>
-
-          <div className={styles.dayOfTheWeek}>
-            <WeekDay dayOfTheWeek='Wednesday' weekdayNumber={2} tasks={wednesdayTasks} days={days}/>
-          </div>
-
-          <div className={styles.dayOfTheWeek}>
-            <WeekDay dayOfTheWeek='Thursday' weekdayNumber={3} tasks={thursdayTasks} days={days}/>
-          </div>
-
-          <div className={styles.dayOfTheWeek}>
-            <WeekDay dayOfTheWeek='Friday' weekdayNumber={4} tasks={fridayTasks} days={days}/>
-          </div>
-
-          <div className={styles.dayOfTheWeek}>
-            <WeekDay dayOfTheWeek='Saturday' weekdayNumber={5} tasks={saturdayTasks} days={days}/>
-          </div>
-
-          <div className={styles.dayOfTheWeek}>
-            <WeekDay dayOfTheWeek='Sunday' weekdayNumber={6} tasks={sundayTasks} days={days}/>
-          </div>
-        </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -2,20 +2,26 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(110, 151, 199);
 }
 
 .dayOfTheWeek {
   display: flex;
   flex-direction: column;
-  background-color: rgb(171, 206, 230);
+  background-color: rgb(149, 176, 196);
+  width: 100px;
+}
+
+.dayOfTheWeekToday {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(109, 144, 243);
   width: 100px;
 }
 
 .task {
   display: flex;
   flex-direction: column;
-  background-color: rgb(213, 179, 247);
+  background-color: rgb(181, 247, 179);
   margin-top: 10px;
   margin-bottom: 10px;
 }

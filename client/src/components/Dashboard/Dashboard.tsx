@@ -12,7 +12,6 @@ import styles from './Dashboard.module.css';
 function Dashboard() {
   const currentWeek = getWeekNumberByDate().toString();
   const [weekNumber, setWeekNumber] = useState<string>(currentWeek);
-  const [input, setInput] = useState<string>('');
   const [days, setDays] = useState<Date[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -25,10 +24,6 @@ function Dashboard() {
     };
     getWeekData();
   }, [weekNumber]);
-
-  const handleClick = () => {
-    setWeekNumber(input);
-  };
 
   const nextWeek = () => {
     const next = Number(weekNumber) + 1;
@@ -44,16 +39,6 @@ function Dashboard() {
 
   return (
     <>
-      <div>
-        <button onClick={() => handleClick()}>Change week</button>
-        <input
-          type="text"
-          placeholder="Enter week number..."
-          onChange={(e) => setInput(e.target.value)}
-        ></input>
-        <div>{weekNumber}</div>
-      </div>
-      
       <div className={styles.navBar}>
         <div className={styles.changeWeekButtons}>
           <button onClick={() => prevWeek()}>Prev</button>
