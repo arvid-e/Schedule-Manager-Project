@@ -52,7 +52,7 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
 
   const handleDeleteTask = async (taskId: string) => {
     await deleteTask(taskId);
-    setCurrentTasks(deleteTaskById(taskId, tasks));
+    setCurrentTasks(deleteTaskById(taskId, currentTasks));
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,50 +85,63 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
   };
 
   return (
-    <>
-      <div className={isToday ? styles.dayOfTheWeekToday : styles.dayOfTheWeek}>
-        <div className={styles.weekdayHeader}>
-          <div>{dayOfTheWeek}</div>
-          <div>{new Date(days[weekdayNumber]).getUTCDate().toString()}</div>
-        </div>
-        <button onClick={handleIsActive}>Create</button>
-        {currentTasks.length > 0 ? (
-          <div className={styles.tasksContainer}>
-            {currentTasks.map((task) => (
-              <div className={styles.task}>
-                <p className="text">{task.title}</p>
-                <p className="text">{task.description}</p>
+    <div className={isToday ? styles.dayOfTheWeekToday : styles.dayOfTheWeek}>
+      {/* Header Section */}
+      <div className={styles.weekdayHeader}>
+        <div>{dayOfTheWeek}</div>
+        <div>{new Date(days[weekdayNumber]).getUTCDate().toString()}</div>
+      </div>
+
+      {/* Scrollable Tasks Area */}
+      {currentTasks.length > 0 && (
+        <div className={styles.tasksContainer}>
+          {currentTasks.map((task) => (
+            <div key={task._id} className={styles.task}>
+              <p className="text">{task.title}</p>
+              <p className="text">{task.description}</p>
+              <div className={styles.taskActions}>
                 <button onClick={() => handleDeleteTask(task._id || '')}>
-                  Delete
+                  ×
                 </button>
+                <button>Complete</button>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Dynamic Creation Bottom Section */}
+      <div className={styles.creationWrapper}>
+        {!isActive ? (
+          <button className={styles.initiateCreateBtn} onClick={handleIsActive}>
+            + Add Task
+          </button>
         ) : (
-          ''
-        )}
-
-        
-
-        {isActive ? (
           <div className={styles.createTaskContainer}>
             <input
               value={title}
               onChange={handleTitleChange}
               type="text"
-            ></input>
+              placeholder="Task title..."
+            />
             <input
               value={description}
               onChange={handleDescriptionChange}
               type="text"
-            ></input>
-            <button onClick={handleCreateTask}>Create</button>
+              placeholder="Description (optional)"
+            />
+            <div className={styles.formActions}>
+              <button className={styles.saveBtn} onClick={handleCreateTask}>
+                Save
+              </button>
+              <button className={styles.cancelBtn} onClick={handleIsActive}>
+                Cancel
+              </button>
+            </div>
           </div>
-        ) : (
-          ''
         )}
       </div>
-    </>
+    </div>
   );
 }
 

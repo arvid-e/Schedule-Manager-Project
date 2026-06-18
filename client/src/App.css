@@ -1,9 +1,7 @@
-body {
-    display: flex;
-    justify-content: center;
-}
 
-#to-to-list-container {
-    display: flex;
-    gap: 55px;
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

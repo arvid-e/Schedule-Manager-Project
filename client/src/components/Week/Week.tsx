@@ -89,7 +89,7 @@ function Week({ tasks, days }: WeekProps) {
     <div className={styles.main}>
       <div className={styles.week}>
         {DAY_NAMES.map((day, i) => (
-          <div key={day} className={styles.dayOfTheWeek}>
+          <div key={day} className={styles.dayColumnWrapper}>
             <WeekDay
               dayOfTheWeek={day}
               weekdayNumber={i}

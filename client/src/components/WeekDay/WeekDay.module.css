@@ -1,32 +1,81 @@
+.dayOfTheWeek,
+.dayOfTheWeekToday {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.dayOfTheWeekToday {
+  background-color: lightblue;
+}
+
 .weekdayHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.dayOfTheWeek {
-  display: flex;
-  flex-direction: column;
-  background-color: rgb(149, 176, 196);
-  width: 100px;
-}
-
-.dayOfTheWeekToday {
-  display: flex;
-  flex-direction: column;
-  background-color: rgb(109, 144, 243);
-  width: 100px;
-}
-
-.task {
-  display: flex;
-  flex-direction: column;
-  background-color: rgb(181, 247, 179);
-  margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.task p {
-  margin: 0;
+.tasksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  overflow-y: auto; 
 }
 
+.task {
+  border: 1px solid gray;
+  padding: 5px;
+  background-color: rgb(245, 208, 194);
+}
+
+.taskActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.creationWrapper {
+  margin-top: auto; 
+  width: 100%;
+}
+
+.createTaskContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.createTaskContainer input {
+  width: 100%;
+  min-width: 0; 
+  box-sizing: border-box;
+}
+
+.formActions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.creationWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.initiateCreateBtn {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.saveBtn {
+  background-color: rgb(200, 243, 200);
+  border: 1px solid gray;
+  padding: 5px;
+  cursor: pointer;
+}

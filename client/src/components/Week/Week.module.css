@@ -1,22 +1,25 @@
 .main {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 .week {
   display: flex;
-  gap: 0px;
-  height: 700px;
-  background-color: bisque;
-}
-
-.dayOfTheWeek {
-  display: flex;
-  flex-direction: column;
-  background-color: rgb(171, 206, 230);
+  width: 100%;
+  height: 600px;
   border: 1px solid black;
-  width: 100px;
 }
 
+.dayColumnWrapper {
+  flex: 1;    
+  min-width: 0; 
+  border-right: 1px solid black;
+}
 
-
-
+.dayColumnWrapper:last-child {
+  border-right: none;
+}

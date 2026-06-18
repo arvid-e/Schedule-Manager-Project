@@ -38,18 +38,17 @@ function Dashboard() {
   };
 
   return (
-    <>
+    <div className={styles.calendarWrapper}>
       <div className={styles.navBar}>
         <div className={styles.changeWeekButtons}>
           <button onClick={() => prevWeek()}>Prev</button>
           <button onClick={() => nextWeek()}>Next</button>
         </div>
-
         <div>{getCurrentDateAndYear(days)}</div>
       </div>
 
       <Week days={days} tasks={tasks} />
-    </>
+    </div>
   );
 }
 
