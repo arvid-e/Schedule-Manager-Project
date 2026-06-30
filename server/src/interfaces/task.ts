@@ -4,13 +4,11 @@ export interface Task {
   title: string;
   description?: string;
   date: Date;
+  completed: boolean;
 }
 
-export interface UpdateTask {
+export interface UpdateTask extends Task {
   _id: string;
-  title?: string;
-  description?: string;
-  date: Date;
 }
 
 export interface TaskDocument extends Task, Document {}

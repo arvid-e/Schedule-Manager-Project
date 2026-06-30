@@ -13,6 +13,10 @@ const taskSchema = new Schema<TaskDocument>(
     date: {
       type: Date,
     },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
