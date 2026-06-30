@@ -88,6 +88,8 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
     };
     const newTask = await createTask(task);
     setCurrentTasks(addTask(newTask.data.task, currentTasks));
+    setTitle('');
+    setDescription('');
     setIsActive(false);
   };
 
@@ -103,8 +105,8 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
     <div className={isToday ? styles.dayOfTheWeekToday : styles.dayOfTheWeek}>
       {/* Header Section */}
       <div className={styles.weekdayHeader}>
-        <div>{dayOfTheWeek}</div>
-        <div>{new Date(days[weekdayNumber]).getUTCDate().toString()}</div>
+        <div className={styles.weekDay}>{dayOfTheWeek}</div>
+        <div className={styles.dateNumber}>{new Date(days[weekdayNumber]).getUTCDate().toString()}</div>
       </div>
 
       {/* Scrollable Tasks Area */}

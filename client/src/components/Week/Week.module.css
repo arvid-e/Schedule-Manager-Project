@@ -11,13 +11,13 @@
   display: flex;
   width: 100%;
   height: 600px;
-  border: 1px solid black;
+  border: 1px solid rgb(228, 225, 225);
 }
 
 .dayColumnWrapper {
   flex: 1;    
   min-width: 0; 
-  border-right: 1px solid black;
+  border-right: 1px solid rgb(199, 197, 197);
 }
 
 .dayColumnWrapper:last-child {

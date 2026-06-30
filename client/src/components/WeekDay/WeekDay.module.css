@@ -5,10 +5,11 @@
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
+   background-color: rgb(5, 16, 37);
 }
 
 .dayOfTheWeekToday {
-  background-color: lightblue;
+  background-color: rgba(12, 30, 65, 0.986);
 }
 
 .weekdayHeader {
@@ -16,6 +17,20 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
+  font-size: 20px;
+  border-bottom: 1px white solid;
+}
+
+.weekdayHeader .dateNumber {
+  font-size: 30px;
+  border-radius: 20px;
+  width: 50px;
+}
+
+.dateNumber {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tasksContainer {
@@ -27,13 +42,13 @@
 }
 
 .task {
-  border: 1px solid gray;
+  border: 1px solid rgb(255, 255, 255);
   padding: 5px;
-  background-color: rgb(245, 208, 194);
+  background-color: rgb(241, 46, 46);
 }
 
 .completedTask {
-  background-color: rgb(125, 247, 125);
+  background-color: rgba(49, 240, 49, 0.568);
 }
 
 .taskActions {
@@ -78,8 +93,10 @@
 }
 
 .saveBtn {
-  background-color: rgb(200, 243, 200);
-  border: 1px solid gray;
+  background-color: rgb(185, 218, 250);
+  border: 1px solid rgb(197, 196, 196);
   padding: 5px;
   cursor: pointer;
 }
+
+
