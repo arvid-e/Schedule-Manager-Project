@@ -86,7 +86,10 @@ export class TaskController {
     const { id } = req.params;
     const updateFields: UpdateTask = req.body;
 
-    const updated = await this.taskService.updateTask(updateFields);
+    const updated = await this.taskService.updateTask({
+      ...updateFields,
+      _id: id,
+    });
 
     if (!updated) {
       throw new Error('Could not update task.');

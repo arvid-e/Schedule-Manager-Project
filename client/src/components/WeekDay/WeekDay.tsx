@@ -1,24 +1,14 @@
 import { useEffect, useState } from 'react';
 import type { Task } from '../../interfaces/task';
-import { createTask, deleteTask } from '../../services/task-service';
+import { completeTask, createTask, deleteTask } from '../../services/task-service';
 import styles from './WeekDay.module.css';
+import { dateIsToday } from '../../utils/date-utils';
 
 interface WeekDayProps {
   tasks: Task[];
   days: Date[];
   dayOfTheWeek: string;
   weekdayNumber: number;
-}
-
-function dateIsToday(date: Date): boolean {
-  const dateToCheck = new Date(date);
-  const today = new Date();
-
-  return (
-    dateToCheck.getUTCFullYear() === today.getUTCFullYear() &&
-    dateToCheck.getUTCMonth() === today.getUTCMonth() &&
-    dateToCheck.getUTCDate() === today.getUTCDate()
-  );
 }
 
 function deleteTaskById(id: string, tasks: Task[]): Task[] {
@@ -55,6 +45,11 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
     setCurrentTasks(deleteTaskById(taskId, currentTasks));
   };
 
+  const handleCompleteTask = async (taskId: string) => {
+    await completeTask(taskId);
+    setCurrentTasks(currentTasks);
+  };
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
@@ -70,6 +65,7 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
       title: title,
       description: description,
       date: days[weekdayNumber],
+      completed: false,
     };
     const newTask = await createTask(task);
     setCurrentTasks(addTask(newTask.data.task, currentTasks));
@@ -103,7 +99,7 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
                 <button onClick={() => handleDeleteTask(task._id || '')}>
                   ×
                 </button>
-                <button>Complete</button>
+                <button onClick={() => handleCompleteTask(task._id || '')}>Complete</button>
               </div>
             </div>
           ))}

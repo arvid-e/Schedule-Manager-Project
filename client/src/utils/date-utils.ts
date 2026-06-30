@@ -220,3 +220,14 @@ export function getWeekNumberByDate(date: Date = new Date()): number {
 
   return weekNumber;
 }
+
+export function dateIsToday(date: Date): boolean {
+  const dateToCheck = new Date(date);
+  const today = new Date();
+
+  return (
+    dateToCheck.getUTCFullYear() === today.getUTCFullYear() &&
+    dateToCheck.getUTCMonth() === today.getUTCMonth() &&
+    dateToCheck.getUTCDate() === today.getUTCDate()
+  );
+}
