@@ -32,6 +32,10 @@
   background-color: rgb(245, 208, 194);
 }
 
+.completedTask {
+  background-color: rgb(125, 247, 125);
+}
+
 .taskActions {
   display: flex;
   justify-content: space-between;

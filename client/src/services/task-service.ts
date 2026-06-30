@@ -36,7 +36,7 @@ export const deleteTask = async (taskId: string) => {
   return data;
 };
 
-export const completeTask = async(taskId: string) => {
+export const completeTask = async (taskId: string) => {
   const response = await fetch(`/api/v1/tasks/${taskId}`, {
     method: 'PATCH',
     body: JSON.stringify({
@@ -44,9 +44,24 @@ export const completeTask = async(taskId: string) => {
     }),
     headers: {
       'Content-Type': 'application/json',
-    }
-  })
+    },
+  });
   const data = await response.json();
 
   return data;
-}
+};
+
+export const revertTask = async (taskId: string) => {
+  const response = await fetch(`/api/v1/tasks/${taskId}`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      completed: false,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+
+  return data;
+};

@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
 import type { Task } from '../../interfaces/task';
-import { completeTask, createTask, deleteTask } from '../../services/task-service';
-import styles from './WeekDay.module.css';
+import {
+  completeTask,
+  createTask,
+  deleteTask,
+  revertTask,
+} from '../../services/task-service';
 import { dateIsToday } from '../../utils/date-utils';
+import styles from './WeekDay.module.css';
 
 interface WeekDayProps {
   tasks: Task[];
@@ -44,10 +49,24 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
     await deleteTask(taskId);
     setCurrentTasks(deleteTaskById(taskId, currentTasks));
   };
-
   const handleCompleteTask = async (taskId: string) => {
     await completeTask(taskId);
-    setCurrentTasks(currentTasks);
+
+    setCurrentTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task._id === taskId ? { ...task, completed: true } : task,
+      ),
+    );
+  };
+
+  const handleRevertTask = async (taskId: string) => {
+    await revertTask(taskId);
+
+    setCurrentTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task._id === taskId ? { ...task, completed: false } : task,
+      ),
+    );
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,14 +111,25 @@ function WeekDay({ dayOfTheWeek, weekdayNumber, tasks, days }: WeekDayProps) {
       {currentTasks.length > 0 && (
         <div className={styles.tasksContainer}>
           {currentTasks.map((task) => (
-            <div key={task._id} className={styles.task}>
+            <div
+              key={task._id}
+              className={`${styles.task} ${task.completed ? styles.completedTask : ''}`}
+            >
               <p className="text">{task.title}</p>
               <p className="text">{task.description}</p>
               <div className={styles.taskActions}>
                 <button onClick={() => handleDeleteTask(task._id || '')}>
                   ×
                 </button>
-                <button onClick={() => handleCompleteTask(task._id || '')}>Complete</button>
+                {task.completed ? (
+                  <button onClick={() => handleRevertTask(task._id || '')}>
+                    Revert
+                  </button>
+                ) : (
+                  <button onClick={() => handleCompleteTask(task._id || '')}>
+                    Complete
+                  </button>
+                )}
               </div>
             </div>
           ))}
